@@ -10,9 +10,11 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
-if [ ! -e '/flarum/config.php' ]; then
+if [ ! -e '/flarum/app/config.php' ]; then
 
-cat > /usr/src/flarum/config.yml <<EOF
+cd /flarum/app/
+
+cat > config.yml <<EOF
 databaseConfiguration:
     driver: mysql
     host: ${DB_HOST}
@@ -29,20 +31,20 @@ sed -i -e "s|{{ MAIL_FROM }}|${MAIL_FROM}|g" \
        -e "s|{{ MAIL_PORT }}|${MAIL_PORT}|g" \
        -e "s|{{ MAIL_USER }}|${MAIL_USER}|g" \
        -e "s|{{ MAIL_PASS }}|${MAIL_PASS}|g" \
-       -e "s|{{ MAIL_ENCR }}|${MAIL_ENCR}|g" /usr/src/flarum/config.sql
+       -e "s|{{ MAIL_ENCR }}|${MAIL_ENCR}|g" config.sql
 
 # Fix installer, wait fix in beta 6
 # PHP Fatal error:  Uncaught ReflectionException: Class flarum.config does not
 # exist in /flarum/vendor/illuminate/container/Container.php
 # https://github.com/flarum/core/commit/7192c4391bee006ccc2de3db6caa89803d72d130
 sed -i -e 's|InfoCommand::class,||g' \
-       -e "s|\['config' => \$app->make('flarum.config')\]|['config' => \$app->isInstalled() ? \$app->make('flarum.config') : []]|g" /usr/src/flarum/vendor/flarum/core/src/Console/Server.php
+       -e "s|\['config' => \$app->make('flarum.config')\]|['config' => \$app->isInstalled() ? \$app->make('flarum.config') : []]|g" vendor/flarum/core/src/Console/Server.php
 
-# Copy flarum src to final dir
-mv /usr/src/flarum/* /flarum && cd /flarum
+# Set permissions
+chown -R flarum:flarum /flarum
 
 # Install flarum (migrate database + assets)
-php flarum install --file config.yml
+su-exec flarum:flarum php flarum install --file config.yml
 
 # Define flarum settings in database
 mysql -h"${DB_HOST}" -u"${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < config.sql

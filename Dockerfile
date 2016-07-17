@@ -33,19 +33,18 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
     && curl -s http://getcomposer.org/installer | php \
     && mv /tmp/composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer \
-    && mkdir -p /flarum /usr/src/flarum \
+    && mkdir -p /flarum/app \
     && addgroup -g ${GID} flarum && adduser -h /flarum -s /bin/sh -D -G flarum -u ${UID} flarum \
-    && chown flarum:flarum /flarum /usr/src/flarum \
-    && su-exec flarum:flarum composer create-project flarum/flarum /usr/src/flarum $VERSION --stability=beta \
+    && chown -R flarum:flarum /flarum \
+    && su-exec flarum:flarum composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
     && composer clear-cache
 
-COPY config.sql /usr/src/flarum/config.sql
+COPY config.sql /flarum/app/config.sql
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php7/php-fpm.conf
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY startup /usr/local/bin/startup
 RUN chmod +x /usr/local/bin/startup
 
-VOLUME /flarum
 EXPOSE 8080
 CMD ["/usr/bin/tini","--","startup"]
