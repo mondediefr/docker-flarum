@@ -2,7 +2,13 @@ FROM xataz/alpine:3.4
 MAINTAINER xataz <https://github.com/xataz>
 MAINTAINER hardware <https://github.com/hardware>
 
-ENV GID=991 UID=991
+ARG VERSION=v0.1.0-beta.5
+
+ENV GID=991 \
+    UID=991 \
+    DB_HOST=mariadb \
+    DB_USER=flarum \
+    DB_NAME=flarum
 
 RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     && export BUILD_DEPS="git" \
@@ -10,6 +16,7 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
       nginx \
       curl \
       supervisor \
+      mariadb-client \
       php7-phar@testing \
       php7-fpm@testing \
       php7-curl@testing \
@@ -26,16 +33,19 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
     && curl -s http://getcomposer.org/installer | php \
     && mv /tmp/composer.phar /usr/bin/composer \
     && chmod +x /usr/bin/composer \
-    && mkdir /flarum \
+    && mkdir -p /flarum /usr/src/flarum \
     && addgroup -g ${GID} flarum && adduser -h /flarum -s /bin/sh -D -G flarum -u ${UID} flarum \
-    && chown flarum:flarum /flarum \
-    && su-exec flarum:flarum composer create-project flarum/flarum /flarum/app --stability=beta \
-    && composer clear-cache \
-    && rm -rf /flarum/.composer/cache/*
+    && chown flarum:flarum /flarum /usr/src/flarum \
+    && su-exec flarum:flarum composer create-project flarum/flarum /usr/src/flarum $VERSION --stability=beta \
+    && composer clear-cache
 
+COPY config.sql /usr/src/flarum/config.sql
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php7/php-fpm.conf
 COPY supervisord.conf /etc/supervisor/supervisord.conf
+COPY startup /usr/local/bin/startup
+RUN chmod +x /usr/local/bin/startup
 
+VOLUME /flarum
 EXPOSE 8080
-CMD ["/usr/bin/tini","--","supervisord","-c","/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/tini","--","startup"]
