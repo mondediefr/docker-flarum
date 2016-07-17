@@ -45,7 +45,7 @@ MAIL_PASS = xxxxxxxx
 
 ### Volume
 
-* /flarum : Flarum directory
+* /flarum/www : Flarum directory
 
 ### Docker-compose
 
@@ -67,7 +67,7 @@ flarum:
     - MAIL_PASS=zzzzzzzz
     - MAIL_ENCR=ssl
   volumes:
-    - /mnt/docker/flarum:/flarum
+    - /mnt/docker/flarum:/flarum/www
 
 mariadb:
   image: mariadb:10.1
@@ -79,7 +79,6 @@ mariadb:
     - MYSQL_DATABASE=flarum
     - MYSQL_USER=flarum
     - MYSQL_PASSWORD=yyyyyyyy
-
 ```
 
 #### Run !
@@ -95,4 +94,4 @@ docker-compose up -d
 
 ### Configuration file
 
-The main configuration file is located here : **/mnt/docker/flarum/config.php**
+The main configuration file is located here : **/mnt/docker/flarum/app/config.php**

@@ -37,7 +37,8 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
     && addgroup -g ${GID} flarum && adduser -h /flarum -s /bin/sh -D -G flarum -u ${UID} flarum \
     && chown -R flarum:flarum /flarum \
     && su-exec flarum:flarum composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
-    && composer clear-cache
+    && composer clear-cache \
+    && rm -rf /flarum/.composer
 
 COPY config.sql /flarum/app/config.sql
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -46,5 +47,6 @@ COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY startup /usr/local/bin/startup
 RUN chmod +x /usr/local/bin/startup
 
+VOLUME /flarum/www
 EXPOSE 8080
 CMD ["/usr/bin/tini","--","startup"]

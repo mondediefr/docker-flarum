@@ -10,10 +10,12 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
-if [ ! -e '/flarum/app/config.php' ]; then
+# if no installation was performed before
+if [ ! -e '/flarum/www/app/config.php' ]; then
 
 cd /flarum/app/
 
+# Flarum settings
 cat > config.yml <<EOF
 databaseConfiguration:
     driver: mysql
@@ -33,7 +35,7 @@ sed -i -e "s|{{ MAIL_FROM }}|${MAIL_FROM}|g" \
        -e "s|{{ MAIL_PASS }}|${MAIL_PASS}|g" \
        -e "s|{{ MAIL_ENCR }}|${MAIL_ENCR}|g" config.sql
 
-# Fix installer, wait fix in beta 6
+# Installer problem, wait fix in beta 6
 # PHP Fatal error:  Uncaught ReflectionException: Class flarum.config does not
 # exist in /flarum/vendor/illuminate/container/Container.php
 # https://github.com/flarum/core/commit/7192c4391bee006ccc2de3db6caa89803d72d130
@@ -41,7 +43,7 @@ sed -i -e 's|InfoCommand::class,||g' \
        -e "s|\['config' => \$app->make('flarum.config')\]|['config' => \$app->isInstalled() ? \$app->make('flarum.config') : []]|g" vendor/flarum/core/src/Console/Server.php
 
 # Set permissions
-chown -R flarum:flarum /flarum
+chown -R flarum:flarum /flarum/app
 
 # Install flarum (migrate database + assets)
 su-exec flarum:flarum php flarum install --file config.yml
@@ -49,12 +51,21 @@ su-exec flarum:flarum php flarum install --file config.yml
 # Define flarum settings in database
 mysql -h"${DB_HOST}" -u"${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < config.sql
 
+# Removing installation files
+rm -f config.sql config.yml
+
+# Moving sources to the final web directory
+cd / && mv /flarum/app /flarum/www
+
 else
   echo "[INFO] Flarum already installed, launch app..."
+
+  # Removing the source directory
+  rm -rf /flarum/app
 fi
 
-# Set permissions
-chown -R flarum:flarum /flarum
+# Set web directory permissions
+chown -R flarum:flarum /flarum/www
 
 # RUN !
 supervisord -c /etc/supervisor/supervisord.conf
