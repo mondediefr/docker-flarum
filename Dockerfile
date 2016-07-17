@@ -30,15 +30,16 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
       php7-session@testing \
     && cd /tmp \
     && ln -s /usr/bin/php7 /usr/bin/php \
-    && curl -s http://getcomposer.org/installer | php \
-    && mv /tmp/composer.phar /usr/bin/composer \
-    && chmod +x /usr/bin/composer \
+    # && curl -s http://getcomposer.org/installer | php \
+    # && mv /tmp/composer.phar /usr/bin/composer \
+    # && chmod +x /usr/bin/composer \
     && mkdir -p /flarum/app \
     && addgroup -g ${GID} flarum && adduser -h /flarum -s /bin/sh -D -G flarum -u ${UID} flarum \
     && chown -R flarum:flarum /flarum \
-    && su-exec flarum:flarum composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
-    && composer clear-cache \
-    && rm -rf /flarum/.composer
+    && su-exec flarum:flarum git clone https://github.com/hardware/flarum-src.git /flarum/app
+    # && su-exec flarum:flarum composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
+    # && composer clear-cache \
+    # && rm -rf /flarum/.composer
 
 COPY config.sql /flarum/app/config.sql
 COPY nginx.conf /etc/nginx/nginx.conf
