@@ -18,8 +18,8 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 ### Environment variables
 
-- **GID** = vmail user id (*optional*, default: 991)
-- **UID** = vmail user id (*optional*, default: 991)
+- **GID** = Flarum user id (*optional*, default: 991)
+- **UID** = Flarum group id (*optional*, default: 991)
 - **FORUM_URL** = Forum URL (**required**)
 - **DB_HOST** = MariaDB instance ip/hostname (*optional*, default: mariadb)
 - **DB_USER** = MariaDB database username (*optional*, default: flarum)
@@ -47,6 +47,39 @@ MAIL_PASS = xxxxxxxx
 
 * /flarum/www : Flarum directory
 
+### Installation
+
+```
+docker pull mondedie/flarum
+
+mkdir -p ~/.config/flarum
+touch ~/.config/flarum/.env
+chmod 600 ~/.config/flarum/.env
+```
+
+Create an `.env` file with your environment variables
+
+```bash
+# vim ~/.config/flarum/.env
+
+UID=991                              # Optional
+GID=991                              # Optional
+
+FORUM_URL=https://forum.domain.tld/  # Required
+
+DB_HOST=mariadb                      # Optional
+DB_NAME=flarum                       # Optional
+DB_USER=flarum                       # Optional
+DB_PASS=yyyyyyyy                     # Required
+
+MAIL_FROM=noreply@domain.tld         # Optional
+MAIL_HOST=mail.domain.tld            # Optional
+MAIL_PORT=465                        # Optional
+MAIL_ENCR=ssl                        # Optional
+MAIL_USER=admin@domain.tld           # Optional
+MAIL_PASS=xxxxxxxx                   # Optional
+```
+
 ### Docker-compose
 
 #### Docker-compose.yml
@@ -55,17 +88,9 @@ MAIL_PASS = xxxxxxxx
 flarum:
   image: flarum
   container_name: mondedie/flarum
+  env_file: ~/.config/flarum/.env
   links:
     - mariadb:mariadb
-  environment:
-    - DB_PASS=yyyyyyyy
-    - FORUM_URL=https://forum.domain.tld/
-    - MAIL_FROM=noreply@domain.tld
-    - MAIL_HOST=mail.domain.tld
-    - MAIL_PORT=465
-    - MAIL_USER=noreply@domain.tld
-    - MAIL_PASS=zzzzzzzz
-    - MAIL_ENCR=ssl
   volumes:
     - /mnt/docker/flarum:/flarum/www
 
@@ -87,6 +112,10 @@ mariadb:
 docker-compose up -d
 ```
 
+### Reverse proxy example
+
+https://github.com/mondediefr/flarum/wiki/Reverse-proxy-example
+
 ### Default account
 
 * **Username** : *admin*
@@ -95,3 +124,7 @@ docker-compose up -d
 ### Configuration file
 
 The main configuration file is located here : **/mnt/docker/flarum/app/config.php**
+
+### Screenshot
+
+![flarum](https://i.imgur.com/teqg3od.pngP)

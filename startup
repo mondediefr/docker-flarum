@@ -1,5 +1,16 @@
 #!/bin/sh
 
+# Env variables
+export DB_HOST
+export DB_USER
+export DB_NAME
+
+# Default values
+DB_HOST=${DB_HOST:-mariadb}
+DB_USER=${DB_USER:-flarum}
+DB_NAME=${DB_NAME:-flarum}
+
+# Required env variables
 if [ -z "$DB_PASS" ]; then
   echo "[ERROR] Mariadb database password must be set !"
   exit 1
@@ -68,4 +79,4 @@ fi
 chown -R flarum:flarum /flarum/www
 
 # RUN !
-supervisord -c /etc/supervisor/supervisord.conf
+exec supervisord -c /etc/supervisor/supervisord.conf
