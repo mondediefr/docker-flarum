@@ -22,6 +22,7 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
       php7-dom@testing \
       php7-ctype@testing \
       php7-session@testing \
+      php7-opcache@testing \
     && cd /tmp \
     && ln -s /usr/bin/php7 /usr/bin/php \
     && curl -s http://getcomposer.org/installer | php \
@@ -37,6 +38,7 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
 COPY config.sql /flarum/app/config.sql
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php7/php-fpm.conf
+COPY opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY startup /usr/local/bin/startup
 
