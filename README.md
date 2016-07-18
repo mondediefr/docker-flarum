@@ -85,8 +85,8 @@ Adapt to your needs :
 
 ```
 flarum:
-  image: flarum
-  container_name: mondedie/flarum
+  image: mondedie/flarum
+  container_name: flarum
   env_file: ~/.config/flarum/.env
   links:
     - mariadb:mariadb
