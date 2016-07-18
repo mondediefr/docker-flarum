@@ -4,60 +4,59 @@
 
 ### What is this ?
 
-Flarum is the next-generation forum software that makes online discussion fun. It's simple, fast, and free.
+Flarum is the next-generation forum software that makes online discussion fun. It's simple, fast, and free. http://flarum.org/
 
 ### Features
 
+- Lightweight & secure image
 - Based on Alpine Linux 3.4 with **nginx** and **PHP 7**
 - Latest Flarum Beta (v0.1.0-beta.5)
 - MySQL/Mariadb driver
+- OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** : Version of flarum (default *v0.1.0-beta.5*)
+- **VERSION** = Version of flarum (default: *v0.1.0-beta.5*)
 
 ### Environment variables
 
-- **GID** = Flarum user id (*optional*, default: 991)
-- **UID** = Flarum group id (*optional*, default: 991)
-- **FORUM_URL** = Forum URL (**required**)
-- **DB_HOST** = MariaDB instance ip/hostname (*optional*, default: mariadb)
-- **DB_USER** = MariaDB database username (*optional*, default: flarum)
-- **DB_NAME** = MariaDB database name (*optional*, default: flarum)
-- **DB_PASS** = MariaDB database password (**required**)
-- **MAIL_FROM** = Mail 'from address' (*optional*, default: null)
-- **MAIL_HOST** = Mail server FQDN (*optional*, default: null)
-- **MAIL_PORT** = Mail server smtp port (*optional*, default: null)
-- **MAIL_ENCR** = Encryption protocol (*optional*, default: null)
-- **MAIL_USER** = Username (*optional*, default: null)
-- **MAIL_PASS** = Password (*optional*, default: null)
-
-#### Mail settings example :
-
-```
-MAIL_FROM = noreply@domain.tld
-MAIL_HOST = mail.domain.tld
-MAIL_PORT = 25 or 465 or 587
-MAIL_ENCR = ssl (465) or tls (587)
-MAIL_USER = contact@domain.tld
-MAIL_PASS = xxxxxxxx
-```
+| Variable | Description | Type | Default value |
+| -------- | ----------- | ---- | ------------- |
+| **GID** | Flarum user id | *optional* | 991
+| **UID** | Flarum group id | *optional* | 991
+| **FORUM_URL** | Forum URL | **required** | none
+| **DB_HOST** | MariaDB instance ip/hostname | *optional* | mariadb
+| **DB_USER** | MariaDB database username | *optional* | flarum
+| **DB_NAME** | MariaDB database name | *optional* | flarum
+| **DB_PASS** | MariaDB database password | **required** | none
+| **MAIL_FROM** | Mail 'from address' | *optional* | none
+| **MAIL_HOST** | Mail server FQDN | *optional* | none
+| **MAIL_PORT** | Mail server smtp port | *optional* | none
+| **MAIL_ENCR** | Encryption protocol, tls (587) or ssl (465) | *optional* | none
+| **MAIL_USER** | Username | *optional* | none
+| **MAIL_PASS** | Password | *optional* | none
 
 ### Volume
 
 * /flarum/www : Flarum directory
 
-### Installation
+## Installation
+
+#### 1 - Pull flarum image
 
 ```
 docker pull mondedie/flarum
+```
 
+#### 2 - Create environment file
+
+```
 mkdir -p ~/.config/flarum
 touch ~/.config/flarum/.env
 chmod 600 ~/.config/flarum/.env
 ```
 
-Create an `.env` file with your environment variables
+Create an `.env` file with your environment variables :
 
 ```bash
 # vim ~/.config/flarum/.env
@@ -80,9 +79,9 @@ MAIL_USER=admin@domain.tld           # Optional
 MAIL_PASS=xxxxxxxx                   # Optional
 ```
 
-### Docker-compose
+#### 3 - Docker-compose.yml
 
-#### Docker-compose.yml
+Adapt to your needs :
 
 ```
 flarum:
@@ -106,15 +105,17 @@ mariadb:
     - MYSQL_PASSWORD=yyyyyyyy
 ```
 
-#### Run !
+#### 4 - Reverse proxy setup
+
+See : https://github.com/mondediefr/flarum/wiki/Reverse-proxy-example
+
+#### 5 - Done, congratulation ! :tada:
+
+You can now run Flarum :
 
 ```
 docker-compose up -d
 ```
-
-### Reverse proxy example
-
-https://github.com/mondediefr/flarum/wiki/Reverse-proxy-example
 
 ### Default account
 
@@ -125,6 +126,6 @@ https://github.com/mondediefr/flarum/wiki/Reverse-proxy-example
 
 The main configuration file is located here : **/mnt/docker/flarum/app/config.php**
 
-### Screenshot
+### Screenshot
 
 ![flarum](https://i.imgur.com/teqg3od.pngP)
