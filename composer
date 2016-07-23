@@ -19,8 +19,9 @@ package=$2
 # Move to flarum folder
 cd /flarum/app
 
-# Create custom extensions cache folder
+# Create custom extensions cache folder and list file
 su-exec flarum:flarum mkdir -p "$CACHE_DIR"
+su-exec flarum:flarum touch "$LIST_FILE"
 
 case "$action" in
   # Install a flarum extension
