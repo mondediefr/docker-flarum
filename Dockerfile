@@ -44,6 +44,6 @@ COPY startup /usr/local/bin/startup
 
 RUN chmod +x /usr/local/bin/startup
 
-VOLUME /flarum/www
+VOLUME /flarum/app/assets
 EXPOSE 8080
 CMD ["/usr/bin/tini","--","startup"]

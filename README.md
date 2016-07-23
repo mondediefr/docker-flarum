@@ -38,7 +38,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 ### Volume
 
-* /flarum/www : Flarum directory
+* /flarum/app/assets : Flarum assets directory
 
 ## Installation
 
@@ -91,7 +91,7 @@ flarum:
   links:
     - mariadb:mariadb
   volumes:
-    - /mnt/docker/flarum:/flarum/www
+    - /mnt/docker/flarum:/flarum/app/assets
 
 mariadb:
   image: mariadb:10.1
@@ -121,10 +121,6 @@ docker-compose up -d
 
 * **Username** : *admin*
 * **Password** : *password*
-
-### Configuration file
-
-The main configuration file is located here : **/mnt/docker/flarum/app/config.php**
 
 ### Screenshot
 

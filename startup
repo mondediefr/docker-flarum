@@ -21,12 +21,9 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
-# if no installation was performed before
-if [ ! -e '/flarum/www/app/config.php' ]; then
-
 cd /flarum/app/
 
-# Flarum settings
+# Installation settings
 cat > config.yml <<EOF
 databaseConfiguration:
     driver: mysql
@@ -38,14 +35,6 @@ databaseConfiguration:
 baseUrl: ${FORUM_URL}
 EOF
 
-# Mail settings
-sed -i -e "s|{{ MAIL_FROM }}|${MAIL_FROM}|g" \
-       -e "s|{{ MAIL_HOST }}|${MAIL_HOST}|g" \
-       -e "s|{{ MAIL_PORT }}|${MAIL_PORT}|g" \
-       -e "s|{{ MAIL_USER }}|${MAIL_USER}|g" \
-       -e "s|{{ MAIL_PASS }}|${MAIL_PASS}|g" \
-       -e "s|{{ MAIL_ENCR }}|${MAIL_ENCR}|g" config.sql
-
 # Installer problem, wait fix in beta 6
 # PHP Fatal error:  Uncaught ReflectionException: Class flarum.config does not
 # exist in /flarum/vendor/illuminate/container/Container.php
@@ -54,29 +43,55 @@ sed -i -e 's|InfoCommand::class,||g' \
        -e "s|\['config' => \$app->make('flarum.config')\]|['config' => \$app->isInstalled() ? \$app->make('flarum.config') : []]|g" vendor/flarum/core/src/Console/Server.php
 
 # Set permissions
-chown -R flarum:flarum /flarum/app
+chown -R flarum:flarum .
 
-# Install flarum (migrate database + assets)
-su-exec flarum:flarum php flarum install --file config.yml
+# if no installation was performed before
+if [ ! -e 'assets/rev-manifest.json' ]; then
 
-# Define flarum settings in database
-mysql -h"${DB_HOST}" -u"${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < config.sql
+  # Mail settings
+  sed -i -e "s|{{ MAIL_FROM }}|${MAIL_FROM}|g" \
+         -e "s|{{ MAIL_HOST }}|${MAIL_HOST}|g" \
+         -e "s|{{ MAIL_PORT }}|${MAIL_PORT}|g" \
+         -e "s|{{ MAIL_USER }}|${MAIL_USER}|g" \
+         -e "s|{{ MAIL_PASS }}|${MAIL_PASS}|g" \
+         -e "s|{{ MAIL_ENCR }}|${MAIL_ENCR}|g" config.sql
+
+  # Install flarum
+  su-exec flarum:flarum php flarum install --file config.yml
+
+  # Define flarum settings in database
+  mysql -h"${DB_HOST}" -u"${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < config.sql
+
+else
+
+  echo "[INFO] Flarum already installed, init app..."
+
+  # Disable already done steps during installation
+  # ----------------------------------------------
+  #
+  # See : flarum/core/src/Install/Console/DefaultsDataProvider.php
+  #       flarum/core/src/Install/Console/InstallCommand.php
+  #
+  #   runMigrations() = Database migration (Flarum\Database\Migrator)
+  #   writeSettings() = Writing default flarum settings (Flarum\Settings\SettingsRepositoryInterface)
+  #      seedGroups() = Create default groups
+  # seedPermissions() = Create default permissions
+  # createAdminUser() = Create default admin user
+  sed -i -e '/$this->runMigrations();/ s/^/#/'   \
+         -e '/$this->writeSettings();/ s/^/#/'   \
+         -e '/$this->seedGroups();/ s/^/#/'      \
+         -e '/$this->seedPermissions();/ s/^/#/' \
+         -e '/$this->createAdminUser();/ s/^/#/' vendor/flarum/core/src/Install/Console/InstallCommand.php
+
+  # Init flarum (without steps above)
+  su-exec flarum:flarum php flarum install --file config.yml
+
+  echo "[INFO] Init done, launch flarum..."
+
+fi
 
 # Removing installation files
 rm -f config.sql config.yml
-
-# Moving sources to the final web directory
-cd / && mv /flarum/app /flarum/www
-
-else
-  echo "[INFO] Flarum already installed, launch app..."
-
-  # Removing the source directory
-  rm -rf /flarum/app
-fi
-
-# Set web directory permissions
-chown -R flarum:flarum /flarum/www
 
 # RUN !
 exec supervisord -c /etc/supervisor/supervisord.conf
