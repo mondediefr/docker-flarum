@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# COMPOSER WRAPUP SCRIPT
+# This script allow to add new extensions to flarum
+
+CSI="\033["
+CEND="${CSI}0m"
+CRED="${CSI}1;31m"
+CGREEN="${CSI}1;32m"
+
+# Composer cache dir and packages list paths
+CACHE_DIR=/flarum/app/assets/.extensions
+LIST_FILE=assets/.extensions/list
+
+# Cmd ARGS
+action=$1
+package=$2
+
+# Move to flarum folder
+cd /flarum/app
+
+# Create custom extensions cache folder
+su-exec flarum:flarum mkdir -p "$CACHE_DIR"
+
+case "$action" in
+  # Install a flarum extension
+  "require")
+    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec flarum:flarum composer require "$package"
+    if [ $? -eq 0 ]; then
+      echo "$package" >> "$LIST_FILE"
+      echo -e "\n${CGREEN}${package} added to flarum.${CEND}"
+      # Remove duplicate packages
+      sort -u -o "$LIST_FILE" "$LIST_FILE"
+    else
+      echo -e "\n${CRED}/!\ An error has occurred...${CEND}"
+    fi
+    ;;
+  # Remove a flarum extension
+  "remove")
+    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec flarum:flarum composer remove "$package"
+    if [ $? -eq 0 ]; then
+      sed -i "\|${package}|d" "$LIST_FILE"
+      echo -e "\n${CGREEN}${package} removed from flarum${CEND}"
+    else
+      echo -e "\n${CRED}/!\ An error has occurred...${CEND}"
+    fi
+    ;;
+  "list")
+    cat "$LIST_FILE"
+    ;;
+  # Other composer action
+  *)
+    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec flarum:flarum composer "$@"
+    ;;
+esac
+
+exit 0

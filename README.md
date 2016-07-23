@@ -122,6 +122,28 @@ docker-compose up -d
 * **Username** : *admin*
 * **Password** : *password*
 
+### Install custom extensions
+
+**Flarum extensions list :** https://packagist.org/search/?q=flarum-ext
+
+#### Install an extension
+
+```
+docker exec -ti flarum composeur require some/extension
+```
+
+#### Remove an extension
+
+```
+docker exec -ti flarum composeur remove some/extension
+```
+
+#### List all extensions
+
+```
+docker exec -ti flarum composeur list
+```
+
 ### Screenshot
 
 ![flarum](https://i.imgur.com/teqg3od.pngP)

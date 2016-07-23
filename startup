@@ -86,6 +86,20 @@ else
   # Init flarum (without steps above)
   su-exec flarum:flarum php flarum install --file config.yml
 
+  # Composer cache dir and packages list paths
+  CACHE_DIR=/flarum/app/assets/.extensions
+  LIST_FILE=assets/.extensions/list
+
+  # Download extra extensions installed with composer wrapup script
+  if [ -s "$LIST_FILE" ]; then
+    echo "[INFO] Install extra bundled extensions"
+    while read extension; do
+      echo "[INFO] -------------- Install extension : ${extension} --------------"
+      COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec flarum:flarum composer require "$extension"
+    done < "$LIST_FILE"
+    echo "[INFO] Install extra bundled extensions. DONE."
+  fi
+
   echo "[INFO] Init done, launch flarum..."
 
 fi

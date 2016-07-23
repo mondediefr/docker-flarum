@@ -41,8 +41,9 @@ COPY php-fpm.conf /etc/php7/php-fpm.conf
 COPY opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY startup /usr/local/bin/startup
+COPY composer /usr/local/bin/composeur
 
-RUN chmod +x /usr/local/bin/startup
+RUN chmod +x /usr/local/bin/*
 
 VOLUME /flarum/app/assets
 EXPOSE 8080
