@@ -107,5 +107,8 @@ fi
 # Removing installation files
 rm -f config.sql config.yml
 
+# Set permissions
+chown -R flarum:flarum /flarum /var/lib/nginx
+
 # RUN !
 exec supervisord -c /etc/supervisor/supervisord.conf
