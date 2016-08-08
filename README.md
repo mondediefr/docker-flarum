@@ -24,6 +24,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | -------- | ----------- | ---- | ------------- |
 | **GID** | Flarum user id | *optional* | 991
 | **UID** | Flarum group id | *optional* | 991
+| **DEBUG** | Flarum debug mode | *optional* | false
 | **FORUM_URL** | Forum URL | **required** | none
 | **DB_HOST** | MariaDB instance ip/hostname | *optional* | mariadb
 | **DB_USER** | MariaDB database username | *optional* | flarum

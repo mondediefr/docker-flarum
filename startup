@@ -4,11 +4,13 @@
 export DB_HOST
 export DB_USER
 export DB_NAME
+export DEBUG
 
 # Default values
 DB_HOST=${DB_HOST:-mariadb}
 DB_USER=${DB_USER:-flarum}
 DB_NAME=${DB_NAME:-flarum}
+DEBUG=${DEBUG:-false}
 
 # Required env variables
 if [ -z "$DB_PASS" ]; then
@@ -103,6 +105,11 @@ else
 
   echo "[INFO] Init done, launch flarum..."
 
+fi
+
+# Set flarum debug mode
+if [ -f "config.php" ]; then
+  sed -i "s|\('debug' =>\) .*|\1 ${DEBUG},|" config.php
 fi
 
 # Removing installation files
