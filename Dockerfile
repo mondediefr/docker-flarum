@@ -6,23 +6,23 @@ ARG VERSION=v0.1.0-beta.5
 
 ENV GID=991 UID=991
 
-RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+RUN echo "@commuedge https://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache add nginx \
       curl \
       supervisor \
       mariadb-client \
-      php7-phar@testing \
-      php7-fpm@testing \
-      php7-curl@testing \
-      php7-mbstring@testing \
-      php7-openssl@testing \
-      php7-json@testing \
-      php7-pdo_mysql@testing \
-      php7-gd@testing \
-      php7-dom@testing \
-      php7-ctype@testing \
-      php7-session@testing \
-      php7-opcache@testing \
+      php7-phar@commuedge \
+      php7-fpm@commuedge \
+      php7-curl@commuedge \
+      php7-mbstring@commuedge \
+      php7-openssl@commuedge \
+      php7-json@commuedge \
+      php7-pdo_mysql@commuedge \
+      php7-gd@commuedge \
+      php7-dom@commuedge \
+      php7-ctype@commuedge \
+      php7-session@commuedge \
+      php7-opcache@commuedge \
     && cd /tmp \
     && ln -s /usr/bin/php7 /usr/bin/php \
     && curl -s http://getcomposer.org/installer | php \
