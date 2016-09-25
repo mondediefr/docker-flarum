@@ -23,6 +23,9 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
+# Set permissions
+chown -R $UID:$GID /flarum /etc/nginx /etc/php7 /var/log /var/lib/nginx /tmp /etc/s6.d
+
 cd /flarum/app/
 
 # Installation settings
@@ -44,11 +47,10 @@ EOF
 sed -i -e 's|InfoCommand::class,||g' \
        -e "s|\['config' => \$app->make('flarum.config')\]|['config' => \$app->isInstalled() ? \$app->make('flarum.config') : []]|g" vendor/flarum/core/src/Console/Server.php
 
-# Set permissions
-chown -R flarum:flarum .
-
 # if no installation was performed before
 if [ ! -e 'assets/rev-manifest.json' ]; then
+
+  echo "[INFO] First launch, installing flarum..."
 
   # Mail settings
   sed -i -e "s|{{ DB_NAME }}|${DB_NAME}|g" \
@@ -60,10 +62,12 @@ if [ ! -e 'assets/rev-manifest.json' ]; then
          -e "s|{{ MAIL_ENCR }}|${MAIL_ENCR}|g" config.sql
 
   # Install flarum
-  su-exec flarum:flarum php flarum install --file config.yml
+  su-exec $UID:$GID php flarum install --file config.yml
 
   # Define flarum settings in database
   mysql -h"${DB_HOST}" -u"${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < config.sql
+
+  echo "[INFO] Installation done, launch flarum..."
 
 else
 
@@ -87,7 +91,7 @@ else
          -e '/$this->createAdminUser();/ s/^/#/' vendor/flarum/core/src/Install/Console/InstallCommand.php
 
   # Init flarum (without steps above)
-  su-exec flarum:flarum php flarum install --file config.yml
+  su-exec $UID:$GID php flarum install --file config.yml
 
   # Composer cache dir and packages list paths
   CACHE_DIR=/flarum/app/assets/.extensions
@@ -98,7 +102,7 @@ else
     echo "[INFO] Install extra bundled extensions"
     while read extension; do
       echo "[INFO] -------------- Install extension : ${extension} --------------"
-      COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec flarum:flarum composer require "$extension"
+      COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer require "$extension"
     done < "$LIST_FILE"
     echo "[INFO] Install extra bundled extensions. DONE."
   fi
@@ -116,7 +120,7 @@ fi
 rm -f config.sql config.yml
 
 # Set permissions
-chown -R flarum:flarum /flarum /var/lib/nginx
+chown -R $UID:$GID /flarum
 
 # RUN !
-exec supervisord -c /etc/supervisor/supervisord.conf
+exec su-exec $UID:$GID /bin/s6-svscan /etc/s6.d
