@@ -18,6 +18,14 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 - **VERSION** = Version of flarum (default: *v0.1.0-beta.5*)
 
+### Ports
+
+- **8888**
+
+### Volume
+
+- **/flarum/app/assets** : Flarum assets directory
+
 ### Environment variables
 
 | Variable | Description | Type | Default value |
@@ -36,10 +44,6 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **MAIL_ENCR** | Encryption protocol, tls (587) or ssl (465) | *optional* | none
 | **MAIL_USER** | Username | *optional* | none
 | **MAIL_PASS** | Password | *optional* | none
-
-### Volume
-
-* /flarum/app/assets : Flarum assets directory
 
 ## Installation
 
