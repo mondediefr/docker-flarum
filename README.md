@@ -134,19 +134,19 @@ docker-compose up -d
 #### Install an extension
 
 ```
-docker exec -ti flarum composeur require some/extension
+docker exec -ti flarum extension require some/extension
 ```
 
 #### Remove an extension
 
 ```
-docker exec -ti flarum composeur remove some/extension
+docker exec -ti flarum extension remove some/extension
 ```
 
 #### List all extensions
 
 ```
-docker exec -ti flarum composeur list
+docker exec -ti flarum extension list
 ```
 
 ### Screenshot
