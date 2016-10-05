@@ -66,22 +66,25 @@ Create an `.env` file with your environment variables :
 ```bash
 # vim ~/.config/flarum/.env
 
-UID=991                              # Optional
-GID=991                              # Optional
+# UID=991
+# GID=991
 
-FORUM_URL=https://forum.domain.tld/  # Required
+# URL required
+FORUM_URL=https://forum.domain.tld/
 
-DB_HOST=mariadb                      # Optional
-DB_NAME=flarum                       # Optional
-DB_USER=flarum                       # Optional
-DB_PASS=yyyyyyyy                     # Required
+# DB_HOST=mariadb
+# DB_NAME=flarum
+# DB_USER=flarum
 
-MAIL_FROM=noreply@domain.tld         # Optional
-MAIL_HOST=mail.domain.tld            # Optional
-MAIL_PORT=465                        # Optional
-MAIL_ENCR=ssl                        # Optional
-MAIL_USER=admin@domain.tld           # Optional
-MAIL_PASS=xxxxxxxx                   # Optional
+# Database password required
+DB_PASS=yyyyyyyy
+
+# MAIL_FROM=noreply@domain.tld
+# MAIL_HOST=mail.domain.tld
+# MAIL_PORT=465
+# MAIL_ENCR=ssl
+# MAIL_USER=admin@domain.tld
+# MAIL_PASS=xxxxxxxx
 ```
 
 #### 3 - Docker-compose.yml
