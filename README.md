@@ -9,14 +9,14 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 ### Features
 
 - Lightweight & secure image
-- Based on Alpine Linux 3.4 with **nginx** and **PHP 7**
-- Latest Flarum Beta (v0.1.0-beta.5)
+- Based on Alpine Linux with **nginx** and **PHP 7**
+- Latest Flarum Beta (v0.1.0-beta.6)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of flarum (default: *v0.1.0-beta.5*)
+- **VERSION** = Version of flarum (default: *v0.1.0-beta.6*)
 
 ### Ports
 
@@ -38,12 +38,6 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **DB_USER** | MariaDB database username | *optional* | flarum
 | **DB_NAME** | MariaDB database name | *optional* | flarum
 | **DB_PASS** | MariaDB database password | **required** | none
-| **MAIL_FROM** | Mail 'from address' | *optional* | none
-| **MAIL_HOST** | Mail server FQDN | *optional* | none
-| **MAIL_PORT** | Mail server smtp port | *optional* | none
-| **MAIL_ENCR** | Encryption protocol, tls (587) or ssl (465) | *optional* | none
-| **MAIL_USER** | Username | *optional* | none
-| **MAIL_PASS** | Password | *optional* | none
 
 ## Installation
 
@@ -53,41 +47,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 docker pull mondedie/flarum
 ```
 
-#### 2 - Create environment file
-
-```
-mkdir -p ~/.config/flarum
-touch ~/.config/flarum/.env
-chmod 600 ~/.config/flarum/.env
-```
-
-Create an `.env` file with your environment variables :
-
-```bash
-# vim ~/.config/flarum/.env
-
-# UID=991
-# GID=991
-
-# URL required
-FORUM_URL=https://forum.domain.tld/
-
-# DB_HOST=mariadb
-# DB_NAME=flarum
-# DB_USER=flarum
-
-# Database password required
-DB_PASS=yyyyyyyy
-
-# MAIL_FROM=noreply@domain.tld
-# MAIL_HOST=mail.domain.tld
-# MAIL_PORT=465
-# MAIL_ENCR=ssl
-# MAIL_USER=admin@domain.tld
-# MAIL_PASS=xxxxxxxx
-```
-
-#### 3 - Docker-compose.yml
+#### 2 - Docker-compose.yml
 
 Adapt to your needs :
 
@@ -95,9 +55,11 @@ Adapt to your needs :
 flarum:
   image: mondedie/flarum
   container_name: flarum
-  env_file: ~/.config/flarum/.env
   links:
     - mariadb:mariadb
+  environment:
+    - FORUM_URL=https://forum.domain.tld
+    - DB_PASS=xxxxxxxx
   volumes:
     - /mnt/docker/flarum:/flarum/app/assets
 
@@ -110,7 +72,7 @@ mariadb:
     - MYSQL_ROOT_PASSWORD=xxxxxxxx
     - MYSQL_DATABASE=flarum
     - MYSQL_USER=flarum
-    - MYSQL_PASSWORD=yyyyyyyy
+    - MYSQL_PASSWORD=xxxxxxxx
 ```
 
 #### 4 - Reverse proxy setup
@@ -124,11 +86,6 @@ You can now run Flarum :
 ```
 docker-compose up -d
 ```
-
-### Default account
-
-* **Username** : *admin*
-* **Password** : *password*
 
 ### Install custom extensions
 
