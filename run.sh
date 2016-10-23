@@ -65,6 +65,7 @@ if [ -e 'assets/rev-manifest.json' ]; then
 else
 
   echo "[INFO] First launch, you must install flarum by opening your browser and setting database parameters."
+  rm -rf config.php
 
 fi
 

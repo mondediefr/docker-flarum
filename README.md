@@ -44,7 +44,11 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 #### 1 - Pull flarum image
 
 ```
+# Pull from hub.docker.com :
 docker pull mondedie/flarum
+
+# or build it manually :
+docker build -t mondedie/flarum https://github.com/mondediefr/flarum.git#master
 ```
 
 #### 2 - Docker-compose.yml
@@ -111,4 +115,5 @@ docker exec -ti flarum extension list
 
 ### Screenshot
 
-![flarum](https://i.imgur.com/teqg3od.pngP)
+![flarum-installation](http://i.imgur.com/e3Hscp4.png)
+![flarum-home](http://i.imgur.com/6kH9iTV.png)
