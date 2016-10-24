@@ -41,7 +41,6 @@ if [ -e 'assets/rev-manifest.json' ]; then
          -e "s|<DB_PREF>|${DB_PREF}|g" \
          -e "s|<FORUM_URL>|${FORUM_URL}|g" config.php
 
-  su-exec $UID:$GID php flarum migrate
   su-exec $UID:$GID php flarum cache:clear
 
   # Composer cache dir and packages list paths
