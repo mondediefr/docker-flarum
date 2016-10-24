@@ -91,6 +91,26 @@ You can now run Flarum :
 docker-compose up -d
 ```
 
+### Upgrade from beta 5
+
+:warning: Disable 3rd party extensions prior to upgrading.
+
+```
+docker pull mondedie/flarum && docker-compose up -d
+```
+
+Navigate to `yourforum.com/admin`, enter your database password and update.
+
+![flarum-update](https://images.mondedie.fr/udl8j4Ue/PueJSigV.png)
+
+Remove and restart your container :
+
+```
+docker-compose stop flarum
+docker-compose rm flarum
+docker-compose up -d
+```
+
 ### Install custom extensions
 
 **Flarum extensions list :** https://packagist.org/search/?q=flarum-ext
@@ -115,5 +135,10 @@ docker exec -ti flarum extension list
 
 ### Screenshot
 
+#### Installation
+
 ![flarum-installation](http://i.imgur.com/e3Hscp4.png)
+
+#### Home page
+
 ![flarum-home](http://i.imgur.com/6kH9iTV.png)
