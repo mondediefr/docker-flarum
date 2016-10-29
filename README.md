@@ -134,6 +134,16 @@ docker exec -ti flarum extension remove some/extension
 docker exec -ti flarum extension list
 ```
 
+### Custom error pages
+
+To use custom error pages, add your .html files in `/mnt/docker/flarum/assets/errors` folder :
+
+```
+mkdir -p /mnt/docker/flarum/assets/errors
+touch 403.html 404.html 500.html 503.html
+chown -R 991:991 /mnt/docker/flarum
+```
+
 ### Screenshot
 
 #### Installation

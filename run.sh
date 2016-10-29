@@ -28,6 +28,11 @@ chown -R $UID:$GID /flarum /etc/nginx /etc/php7 /var/log /var/lib/nginx /tmp /et
 
 cd /flarum/app
 
+if [ -d 'assets/errors' ]; then
+  rm -rf vendor/flarum/core/error/*
+  ln -s /flarum/app/assets/errors/* vendor/flarum/core/error
+fi
+
 # if no installation was performed before
 if [ -e 'assets/rev-manifest.json' ]; then
 
