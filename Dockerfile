@@ -9,6 +9,7 @@ ENV GID=991 UID=991
 RUN echo "@commuedge https://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
  && apk -U add \
     nginx \
+    git \
     s6 \
     su-exec \
     curl \
