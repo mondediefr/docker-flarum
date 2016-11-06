@@ -144,6 +144,59 @@ touch 403.html 404.html 500.html 503.html
 chown -R 991:991 /mnt/docker/flarum
 ```
 
+### Custom composer.json (experienced users)
+
+Customize your own composer.json file in `/mnt/docker/flarum/composer.custom.json`, for example add some privates repositories like this :
+
+```json
+# /mnt/docker/flarum/composer.custom.json
+{
+  "name": "flarum/flarum",
+  "description": "Delightfully simple forum software.",
+  [...]
+
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "xxxxx/flarum-ext-my-private-extension",
+        "version": "dev-master",
+        "type": "flarum-extension",
+        "authors": [
+          {
+            "name": "Me",
+            "email": "me@domain.tld"
+          }
+        ],
+        "dist": {
+          "url": "/flarum/app/assets/extensions/flarum-ext-my-private-extension",
+          "type": "path",
+          "reference": "master"
+        },
+        "require": {
+          "flarum/core": "^0.1.0-beta.6"
+        },
+        "autoload": {
+          "psr-4": {
+            "xxx\\xxx\\": "src/"
+          }
+        },
+        "extra": {
+          "flarum-extension": {
+            "title": "xxxxxx",
+            "icon": {
+              "name": "picture-o",
+              "backgroundColor": "#2196f3",
+              "color": "#fff"
+            }
+          }
+        }
+      }
+    }
+  ],
+}
+```
+
 ### Screenshot
 
 #### Installation

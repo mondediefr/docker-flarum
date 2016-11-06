@@ -28,9 +28,15 @@ chown -R $UID:$GID /flarum /etc/nginx /etc/php7 /var/log /var/lib/nginx /tmp /et
 
 cd /flarum/app
 
+# Custom HTTP errors pages
 if [ -d 'assets/errors' ]; then
   rm -rf vendor/flarum/core/error/*
   ln -s /flarum/app/assets/errors/* vendor/flarum/core/error
+fi
+
+# Custom composer.json (eg. for privates extensions)
+if [ -f 'assets/composer.custom.json' ]; then
+  cp -f assets/composer.custom.json composer.json
 fi
 
 # if no installation was performed before
