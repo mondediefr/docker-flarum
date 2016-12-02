@@ -30,13 +30,19 @@ cd /flarum/app
 
 # Custom HTTP errors pages
 if [ -d 'assets/errors' ]; then
+  echo "[INFO] Found custom errors pages"
   rm -rf vendor/flarum/core/error/*
   ln -s /flarum/app/assets/errors/* vendor/flarum/core/error
 fi
 
-# Custom composer.json (eg. for privates extensions)
-if [ -f 'assets/composer.custom.json' ]; then
-  cp -f assets/composer.custom.json composer.json
+# Custom repositories (eg. for privates extensions)
+if [ -f 'extensions/composer.repositories.txt' ]; then
+  while read line; do
+    repository=$(echo $line | cut -d '|' -f1)
+    json=$(echo $line | cut -d '|' -f2)
+    echo "[INFO] Adding ${repository} composer repository"
+    composer config repositories.${repository} "${json}"
+  done < extensions/composer.repositories.txt
 fi
 
 # if no installation was performed before
@@ -55,8 +61,8 @@ if [ -e 'assets/rev-manifest.json' ]; then
   su-exec $UID:$GID php flarum cache:clear
 
   # Composer cache dir and packages list paths
-  CACHE_DIR=assets/.extensions
-  LIST_FILE=$CACHE_DIR/list
+  CACHE_DIR=extensions/.cache
+  LIST_FILE=extensions/list
 
   # Download extra extensions installed with composer wrapup script
   if [ -s "$LIST_FILE" ]; then

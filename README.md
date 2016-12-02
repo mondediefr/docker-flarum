@@ -66,7 +66,8 @@ flarum:
     - FORUM_URL=https://forum.domain.tld
     - DB_PASS=xxxxxxxx
   volumes:
-    - /mnt/docker/flarum:/flarum/app/assets
+    - /mnt/docker/flarum/assets:/flarum/app/assets
+    - /mnt/docker/flarum/extensions:/flarum/app/extensions
 
 mariadb:
   image: mariadb:10.1
@@ -136,66 +137,24 @@ docker exec -ti flarum extension list
 
 ### Custom error pages
 
-To use custom error pages, add your .html files in `/mnt/docker/flarum/errors` folder :
+To use custom error pages, add your .html files in `/mnt/docker/flarum/assets/errors` folder :
 
 ```
-mkdir -p /mnt/docker/flarum/errors
+mkdir -p /mnt/docker/flarum/assets/errors
 touch 403.html 404.html 500.html 503.html
 chown -R 991:991 /mnt/docker/flarum
 ```
 
-### Custom composer.json (experienced users)
+### Custom composer repositories
 
-Customize your own composer.json file in `/mnt/docker/flarum/composer.custom.json`, for example add some privates repositories like this :
+To use the composer repository system, add your repo name and json representation in `/mnt/docker/flarum/extensions/composer.repositories.txt` :
 
-```json
-# /mnt/docker/flarum/composer.custom.json
-{
-  "name": "flarum/flarum",
-  "description": "Delightfully simple forum software.",
-  [...]
-
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "xxxxx/flarum-ext-my-private-extension",
-        "version": "dev-master",
-        "type": "flarum-extension",
-        "authors": [
-          {
-            "name": "Me",
-            "email": "me@domain.tld"
-          }
-        ],
-        "dist": {
-          "url": "/flarum/app/assets/extensions/flarum-ext-my-private-extension",
-          "type": "path",
-          "reference": "master"
-        },
-        "require": {
-          "flarum/core": "^0.1.0-beta.6"
-        },
-        "autoload": {
-          "psr-4": {
-            "xxx\\xxx\\": "src/"
-          }
-        },
-        "extra": {
-          "flarum-extension": {
-            "title": "xxxxxx",
-            "icon": {
-              "name": "picture-o",
-              "backgroundColor": "#2196f3",
-              "color": "#fff"
-            }
-          }
-        }
-      }
-    }
-  ],
-}
 ```
+my_private_repo|{"type":"path","url":"extensions/*/"}
+my_public_repo|{"type":"vcs","url":"https://github.com/my/repo"}
+```
+
+https://getcomposer.org/doc/03-cli.md#modifying-repositories
 
 ### Screenshot
 

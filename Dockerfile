@@ -46,7 +46,7 @@ COPY run.sh /usr/local/bin/run.sh
 
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/* /etc/s6.d/.s6-svscan/*
 
-VOLUME /flarum/app/assets
+VOLUME /flarum/app/assets /flarum/app/extensions
 
 EXPOSE 8888
 

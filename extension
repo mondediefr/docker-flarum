@@ -9,8 +9,8 @@ CRED="${CSI}1;31m"
 CGREEN="${CSI}1;32m"
 
 # Composer cache dir and packages list paths
-CACHE_DIR=/flarum/app/assets/.extensions
-LIST_FILE=assets/.extensions/list
+CACHE_DIR=extensions/.cache
+LIST_FILE=extensions/list
 
 # Cmd ARGS
 action=$1
@@ -54,5 +54,7 @@ case "$action" in
     COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer "$@"
     ;;
 esac
+
+su-exec $UID:$GID php flarum cache:clear
 
 exit 0
