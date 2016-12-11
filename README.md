@@ -58,7 +58,7 @@ Adapt to your needs :
 
 ```
 flarum:
-  image: mondedie/flarum
+  image: mondedie/docker-flarum
   container_name: flarum
   links:
     - mariadb:mariadb
