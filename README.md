@@ -1,4 +1,4 @@
-# mondedie/flarum
+# mondedie/docker-flarum
 
 ![logo](https://i.imgur.com/Bjrtbsc.png "logo")
 
@@ -30,8 +30,8 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 | Variable | Description | Type | Default value |
 | -------- | ----------- | ---- | ------------- |
-| **GID** | Flarum user id | *optional* | 991
-| **UID** | Flarum group id | *optional* | 991
+| **UID** | Flarum user id | *optional* | 991
+| **GID** | Flarum group id | *optional* | 991
 | **DEBUG** | Flarum debug mode | *optional* | false
 | **FORUM_URL** | Forum URL | **required** | none
 | **DB_HOST** | MariaDB instance ip/hostname | *optional* | mariadb
@@ -46,10 +46,10 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 ```
 # Pull from hub.docker.com :
-docker pull mondedie/flarum
+docker pull mondedie/docker-flarum
 
 # or build it manually :
-docker build -t mondedie/flarum https://github.com/mondediefr/flarum.git#master
+docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
 ```
 
 #### 2 - Docker-compose.yml
@@ -98,7 +98,7 @@ docker-compose up -d
 :warning: Disable 3rd party extensions prior to upgrading.
 
 ```
-docker pull mondedie/flarum && docker-compose up -d
+docker pull mondedie/docker-flarum && docker-compose up -d
 ```
 
 Navigate to `yourforum.com/admin`, enter your database password and update.
