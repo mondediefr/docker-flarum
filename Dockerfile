@@ -33,6 +33,11 @@ RUN echo "@commuedge https://nl.alpinelinux.org/alpine/edge/community" >> /etc/a
  && mkdir -p /flarum/app \
  && chown -R $UID:$GID /flarum \
  && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
+ # ----- Zend stratigility deprecated message temporary fix -----
+ # https://github.com/flarum/core/issues/1065
+ && rm -f /flarum/app/composer.lock \
+ && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer require zendframework/zend-stratigility:1.2.* -d /flarum/app \
+ # --------------------------------------------------------------
  && composer clear-cache \
  && rm -rf /flarum/.composer /var/cache/apk/*
 

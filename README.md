@@ -25,6 +25,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 ### Volume
 
 - **/flarum/app/assets** : Flarum assets directory
+- **/flarum/app/extensions** : Flarum extension directory
 
 ### Environment variables
 
