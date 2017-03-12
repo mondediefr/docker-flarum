@@ -1,29 +1,30 @@
-FROM alpine:latest
-MAINTAINER xataz <https://github.com/xataz>
-MAINTAINER hardware <https://github.com/hardware>
+FROM alpine:3.5
+
+LABEL description "Next-generation forum software that makes online discussion fun" \
+      maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
 
 ARG VERSION=v0.1.0-beta.6
 
 ENV GID=991 UID=991
 
-RUN echo "@commuedge https://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+RUN echo "@community https://nl.alpinelinux.org/alpine/v3.5/community" >> /etc/apk/repositories \
  && apk -U add \
     nginx \
     s6 \
     su-exec \
     curl \
-    php7-phar@commuedge \
-    php7-fpm@commuedge \
-    php7-curl@commuedge \
-    php7-mbstring@commuedge \
-    php7-openssl@commuedge \
-    php7-json@commuedge \
-    php7-pdo_mysql@commuedge \
-    php7-gd@commuedge \
-    php7-dom@commuedge \
-    php7-ctype@commuedge \
-    php7-session@commuedge \
-    php7-opcache@commuedge \
+    php7-phar@community \
+    php7-fpm@community \
+    php7-curl@community \
+    php7-mbstring@community \
+    php7-openssl@community \
+    php7-json@community \
+    php7-pdo_mysql@community \
+    php7-gd@community \
+    php7-dom@community \
+    php7-ctype@community \
+    php7-session@community \
+    php7-opcache@community \
  && cd /tmp \
  && ln -s /usr/bin/php7 /usr/bin/php \
  && curl -s http://getcomposer.org/installer | php \
