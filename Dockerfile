@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:edge
 
 LABEL description "Next-generation forum software that makes online discussion fun" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
@@ -7,26 +7,27 @@ ARG VERSION=v0.1.0-beta.6
 
 ENV GID=991 UID=991
 
-RUN echo "@community https://nl.alpinelinux.org/alpine/v3.5/community" >> /etc/apk/repositories \
+RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk -U add \
     nginx \
     s6 \
     su-exec \
     curl \
-    php7-phar@community \
-    php7-fpm@community \
-    php7-curl@community \
-    php7-mbstring@community \
-    php7-openssl@community \
-    php7-json@community \
-    php7-pdo_mysql@community \
-    php7-gd@community \
-    php7-dom@community \
-    php7-ctype@community \
-    php7-session@community \
-    php7-opcache@community \
+    php7.1@testing \
+    php7.1-fileinfo@testing \
+    php7.1-phar@testing \
+    php7.1-fpm@testing \
+    php7.1-curl@testing \
+    php7.1-mbstring@testing \
+    php7.1-openssl@testing \
+    php7.1-json@testing \
+    php7.1-pdo_mysql@testing \
+    php7.1-gd@testing \
+    php7.1-dom@testing \
+    php7.1-ctype@testing \
+    php7.1-session@testing \
+    php7.1-opcache@testing \
  && cd /tmp \
- && ln -s /usr/bin/php7 /usr/bin/php \
  && curl -s http://getcomposer.org/installer | php \
  && mv /tmp/composer.phar /usr/bin/composer \
  && chmod +x /usr/bin/composer \
@@ -42,8 +43,8 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.5/community" >> /etc/a
  && rm -rf /flarum/.composer /var/cache/apk/*
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY php-fpm.conf /etc/php7/php-fpm.conf
-COPY opcache.ini /etc/php7/conf.d/00_opcache.ini
+COPY php-fpm.conf /etc/php7.1/php-fpm.conf
+COPY opcache.ini /etc/php7.1/conf.d/00_opcache.ini
 COPY config.php /flarum/app/config.php
 COPY extension /usr/local/bin/extension
 COPY s6.d /etc/s6.d

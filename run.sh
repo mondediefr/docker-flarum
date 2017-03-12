@@ -24,7 +24,7 @@ if [ -z "$FORUM_URL" ]; then
 fi
 
 # Set permissions
-chown -R $UID:$GID /flarum /etc/nginx /etc/php7 /var/log /var/lib/nginx /tmp /etc/s6.d
+chown -R $UID:$GID /flarum /etc/nginx /etc/php7.1 /var/log /var/lib/nginx /tmp /etc/s6.d
 
 cd /flarum/app
 
