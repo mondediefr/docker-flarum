@@ -13,20 +13,20 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
     s6 \
     su-exec \
     curl \
-    php7.1@testing \
-    php7.1-fileinfo@testing \
-    php7.1-phar@testing \
-    php7.1-fpm@testing \
-    php7.1-curl@testing \
-    php7.1-mbstring@testing \
-    php7.1-openssl@testing \
-    php7.1-json@testing \
-    php7.1-pdo_mysql@testing \
-    php7.1-gd@testing \
-    php7.1-dom@testing \
-    php7.1-ctype@testing \
-    php7.1-session@testing \
-    php7.1-opcache@testing \
+    php7@testing \
+    php7-fileinfo@testing \
+    php7-phar@testing \
+    php7-fpm@testing \
+    php7-curl@testing \
+    php7-mbstring@testing \
+    php7-openssl@testing \
+    php7-json@testing \
+    php7-pdo_mysql@testing \
+    php7-gd@testing \
+    php7-dom@testing \
+    php7-ctype@testing \
+    php7-session@testing \
+    php7-opcache@testing \
  && cd /tmp \
  && curl -s http://getcomposer.org/installer | php \
  && mv /tmp/composer.phar /usr/bin/composer \
@@ -43,8 +43,8 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
  && rm -rf /flarum/.composer /var/cache/apk/*
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY php-fpm.conf /etc/php7.1/php-fpm.conf
-COPY opcache.ini /etc/php7.1/conf.d/00_opcache.ini
+COPY php-fpm.conf /etc/php7/php-fpm.conf
+COPY opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY config.php /flarum/app/config.php
 COPY extension /usr/local/bin/extension
 COPY s6.d /etc/s6.d
