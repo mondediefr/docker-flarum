@@ -8,7 +8,7 @@ ARG VERSION=v0.1.0-beta.6
 ENV GID=991 UID=991
 
 RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk -U add \
+ && apk -U upgrade && apk add \
     nginx \
     s6 \
     su-exec \
@@ -21,7 +21,10 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
     php7-mbstring@testing \
     php7-openssl@testing \
     php7-json@testing \
+    php7-pdo@testing \
     php7-pdo_mysql@testing \
+    php7-mysqlnd@testing \
+    php7-zlib@testing \
     php7-gd@testing \
     php7-dom@testing \
     php7-ctype@testing \
