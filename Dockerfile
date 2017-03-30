@@ -8,7 +8,7 @@ ARG VERSION=v0.1.0-beta.6
 ENV GID=991 UID=991
 
 RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk -U upgrade && apk add \
+ && apk add -U \
     nginx \
     s6 \
     su-exec \
@@ -30,6 +30,7 @@ RUN echo "@testing https://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/r
     php7-ctype@testing \
     php7-session@testing \
     php7-opcache@testing \
+    php7-xmlwriter@testing \
  && cd /tmp \
  && curl -s http://getcomposer.org/installer | php \
  && mv /tmp/composer.phar /usr/bin/composer \
