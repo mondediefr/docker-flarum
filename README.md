@@ -9,7 +9,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 ### Features
 
 - Lightweight & secure image
-- Based on Alpine Linux with **nginx** and **PHP 7**
+- Based on Alpine Linux with **nginx** and **PHP 7.1**
 - Latest Flarum Beta (v0.1.0-beta.6)
 - MySQL/Mariadb driver
 - OPCache extension configured
@@ -47,7 +47,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 ```
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum
+docker pull mondedie/docker-flarum:0.1.0-beta.6-stable
 
 # or build it manually :
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
@@ -59,7 +59,7 @@ Adapt to your needs :
 
 ```
 flarum:
-  image: mondedie/docker-flarum
+  image: mondedie/docker-flarum:0.1.0-beta.6-stable
   container_name: flarum
   links:
     - mariadb:mariadb
