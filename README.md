@@ -9,7 +9,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 ### Features
 
 - Lightweight & secure image
-- Based on Alpine Linux with **nginx** and **PHP 7.1**
+- Based on Alpine Linux with **nginx** and **PHP 7**
 - Latest Flarum Beta (v0.1.0-beta.6)
 - MySQL/Mariadb driver
 - OPCache extension configured
@@ -18,7 +18,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 - **VERSION** = Version of flarum (default: *v0.1.0-beta.6*)
 
-### Ports
+### Ports
 
 - **8888**
 
@@ -40,6 +40,8 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **DB_NAME** | MariaDB database name | *optional* | flarum
 | **DB_PASS** | MariaDB database password | **required** | none
 | **DB_PREF** | Flarum tables prefix | *optional* | none
+| **UPLOAD_MAX_SIZE** | The maximum size of an uploaded file | *optional* | 50M
+| **MEMORY_LIMIT** | maximum amount of memory used by php | *optional* | 128M
 
 ## Installation
 
@@ -160,6 +162,8 @@ https://getcomposer.org/doc/03-cli.md#modifying-repositories
 ### Screenshot
 
 #### Installation
+
+:warning: **Admin password must contain at least 8 characters.**
 
 ![flarum-installation](http://i.imgur.com/e3Hscp4.png)
 

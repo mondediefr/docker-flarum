@@ -23,8 +23,11 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
+sed -i -e "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /nginx/conf/nginx.conf /php/etc/php-fpm.conf \
+       -e "s/<MEMORY_LIMIT>/$MEMORY_LIMIT/g" /php/etc/php-fpm.conf
+
 # Set permissions
-chown -R $UID:$GID /flarum /etc/nginx /etc/php7 /var/log /var/lib/nginx /tmp /etc/s6.d
+chown -R $UID:$GID /flarum /nginx /php /var/log /tmp /etc/s6.d
 
 cd /flarum/app
 
