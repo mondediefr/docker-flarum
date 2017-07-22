@@ -10,13 +10,13 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7**
-- Latest Flarum Beta (v0.1.0-beta.6)
+- Latest Flarum Beta (v0.1.0-beta.7)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of flarum (default: *v0.1.0-beta.6*)
+- **VERSION** = Version of flarum (default: *v0.1.0-beta.7*)
 
 ### Ports
 
@@ -49,7 +49,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 ```
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.6-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.7-stable
 
 # or build it manually :
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
@@ -61,7 +61,7 @@ Adapt to your needs :
 
 ```
 flarum:
-  image: mondedie/docker-flarum:0.1.0-beta.6-stable
+  image: mondedie/docker-flarum:0.1.0-beta.7-stable
   container_name: flarum
   links:
     - mariadb:mariadb
@@ -96,12 +96,12 @@ You can now run Flarum :
 docker-compose up -d
 ```
 
-### Upgrade from beta 5
+### Upgrade from v0.1.0-beta.6
 
 :warning: Disable 3rd party extensions prior to upgrading.
 
 ```
-docker pull mondedie/docker-flarum && docker-compose up -d
+docker pull mondedie/docker-flarum:0.1.0-beta.7-stable && docker-compose up -d
 ```
 
 Navigate to `yourforum.com/admin`, enter your database password and update.
