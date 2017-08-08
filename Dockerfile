@@ -1,4 +1,4 @@
-FROM wonderfall/nginx-php
+FROM wonderfall/nginx-php:7.1
 
 LABEL description "Next-generation forum software that makes online discussion fun" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
