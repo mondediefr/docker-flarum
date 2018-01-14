@@ -23,13 +23,17 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
-sed -i -e "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /nginx/conf/nginx.conf /php/etc/php-fpm.conf \
-       -e "s/<MEMORY_LIMIT>/$MEMORY_LIMIT/g" /php/etc/php-fpm.conf
+sed -i "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
 
 # Set permissions
-chown -R $UID:$GID /flarum /nginx /php /var/log /tmp /etc/s6.d
+chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
 
 cd /flarum/app
+
+# Disable custom errors pages if debug mode is enabled
+if [ "$DEBUG" = true ]; then
+  sed -i '/error_page/ s/^/#/' /etc/nginx/nginx.conf
+fi
 
 # Custom HTTP errors pages
 if [ -d 'assets/errors' ]; then
@@ -92,4 +96,4 @@ fi
 chown -R $UID:$GID /flarum
 
 # RUN !
-exec su-exec $UID:$GID /bin/s6-svscan /etc/s6.d
+exec su-exec $UID:$GID /bin/s6-svscan /services

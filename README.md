@@ -41,7 +41,6 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **DB_PASS** | MariaDB database password | **required** | none
 | **DB_PREF** | Flarum tables prefix | *optional* | none
 | **UPLOAD_MAX_SIZE** | The maximum size of an uploaded file | *optional* | 50M
-| **MEMORY_LIMIT** | maximum amount of memory used by php | *optional* | 128M
 
 ## Installation
 
