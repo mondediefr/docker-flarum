@@ -46,7 +46,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 #### 1 - Pull flarum image
 
-```
+```bash
 # Pull from hub.docker.com :
 docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable
 
@@ -54,46 +54,92 @@ docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
 ```
 
-#### 2 - Docker-compose.yml
+#### 2 - Docker-compose.yml example
 
-Adapt to your needs :
+This is an Out-of-box setup example, adapt to your needs :
 
+```yml
+version: "3"
+
+services:
+  flarum:
+    image: mondedie/docker-flarum:0.1.0-beta.7.1-stable
+    container_name: flarum
+    labels:
+      - traefik.enable=true
+      - traefik.backend.port=8888
+      - traefik.frontend.rule=Host:flarum.local
+    environment:
+      - FORUM_URL=http://flarum.local
+      - DB_PASS=xxxxxx
+    volumes:
+      - /mnt/docker/flarum/assets:/flarum/app/assets
+      - /mnt/docker/flarum/extensions:/flarum/app/extensions
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.1
+    container_name: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=xxxxxx
+      - MYSQL_DATABASE=flarum
+      - MYSQL_USER=flarum
+      - MYSQL_PASSWORD=xxxxxx
+    volumes:
+      - /mnt/docker/mysql/db:/var/lib/mysql
+
+  traefik:
+    image: traefik
+    container_name: traefik
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/docker/traefik.toml:/traefik.toml:ro
 ```
-flarum:
-  image: mondedie/docker-flarum:0.1.0-beta.7.1-stable
-  container_name: flarum
-  links:
-    - mariadb:mariadb
-  environment:
-    - FORUM_URL=https://forum.domain.tld
-    - DB_PASS=xxxxxxxx
-  volumes:
-    - /mnt/docker/flarum/assets:/flarum/app/assets
-    - /mnt/docker/flarum/extensions:/flarum/app/extensions
 
-mariadb:
-  image: mariadb:10.1
-  container_name: mariadb
-  volumes:
-    - /mnt/docker/mysql/db:/var/lib/mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=xxxxxxxx
-    - MYSQL_DATABASE=flarum
-    - MYSQL_USER=flarum
-    - MYSQL_PASSWORD=xxxxxxxx
+```toml
+# /mnt/docker/traefik.toml
+
+defaultEntryPoints = ["http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "local"
+watch = true
+exposedbydefault = false
 ```
 
-#### 4 - Reverse proxy setup
+```bash
+# /etc/hosts
 
-See : https://github.com/mondediefr/flarum/wiki/Reverse-proxy-example
+127.0.0.1 flarum.local
+```
 
-#### 5 - Done, congratulation ! :tada:
+#### 3 - Run it
 
 You can now run Flarum :
 
 ```
 docker-compose up -d
 ```
+
+And open http://flarum.local and fill out the installation form :
+
+* Your admin password must contain at least **8 characters**.
+* You can't use MariaDB **10.2** or **10.3** for the moment. More information on this issue [here](https://github.com/flarum/core/issues/1211).
+* If you get an error 500 with _Something went wrong_ message, switch the `DEBUG` environment variable to `true` to see the actual error message in your browser.
+
+![flarum-installation](http://i.imgur.com/e3Hscp4.png)
+
+Click on **Install Flarum** and after few seconds the forum homepage should appear.
+
+![flarum-home](http://i.imgur.com/6kH9iTV.png)
 
 ### Upgrade from v0.1.0-beta.6
 
@@ -141,7 +187,7 @@ docker exec -ti flarum extension list
 
 To use custom error pages, add your .html files in `/mnt/docker/flarum/assets/errors` folder :
 
-```
+```bash
 mkdir -p /mnt/docker/flarum/assets/errors
 touch 403.html 404.html 500.html 503.html
 chown -R 991:991 /mnt/docker/flarum
@@ -158,14 +204,4 @@ my_public_repo|{"type":"vcs","url":"https://github.com/my/repo"}
 
 https://getcomposer.org/doc/03-cli.md#modifying-repositories
 
-### Screenshot
 
-#### Installation
-
-:warning: **Admin password must contain at least 8 characters.**
-
-![flarum-installation](http://i.imgur.com/e3Hscp4.png)
-
-#### Home page
-
-![flarum-home](http://i.imgur.com/6kH9iTV.png)
