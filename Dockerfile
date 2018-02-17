@@ -5,7 +5,11 @@ LABEL description "Next-generation forum software that makes online discussion f
 
 ARG VERSION=v0.1.0-beta.7
 
-ENV GID=991 UID=991 UPLOAD_MAX_SIZE=50M
+ENV GID=991 \
+    UID=991 \
+    UPLOAD_MAX_SIZE=50M \
+    PHP_MEMORY_LIMIT=128M \
+    OPCACHE_MEMORY_LIMIT=128
 
 RUN echo "@community https://nl.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories \
  && apk add -U \

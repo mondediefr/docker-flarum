@@ -24,6 +24,8 @@ if [ -z "$FORUM_URL" ]; then
 fi
 
 sed -i "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
+sed -i "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /etc/php7/php-fpm.conf
+sed -i "s/<OPCACHE_MEMORY_LIMIT>/$OPCACHE_MEMORY_LIMIT/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
 chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
