@@ -11,6 +11,7 @@ DB_HOST=${DB_HOST:-mariadb}
 DB_USER=${DB_USER:-flarum}
 DB_NAME=${DB_NAME:-flarum}
 DEBUG=${DEBUG:-false}
+LOG_TO_STDOUT=${LOG_TO_STDOUT:-false}
 
 # Required env variables
 if [ -z "$DB_PASS" ]; then
@@ -32,8 +33,17 @@ chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
 
 cd /flarum/app
 
+# Set log output to STDOUT if wanted (LOG_TO_STDOUT=true)
+if [ "$LOG_TO_STDOUT" = true ]; then
+  echo "[INFO] Logging to stdout activated"
+  chmod o+w /dev/stdout
+  sed -i "s/.*error_log.*$/error_log \/dev\/stdout warn;/" /etc/nginx/nginx.conf
+  sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php7/php-fpm.conf
+fi
+
 # Disable custom errors pages if debug mode is enabled
 if [ "$DEBUG" = true ]; then
+  echo "[INFO] Debug mode enabled"
   sed -i '/error_page/ s/^/#/' /etc/nginx/nginx.conf
 fi
 

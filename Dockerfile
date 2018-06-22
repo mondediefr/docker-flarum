@@ -17,6 +17,7 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.7/community" >> /etc/a
     s6 \
     su-exec \
     curl \
+    git \
     php7@community \
     php7-fileinfo@community \
     php7-phar@community \
@@ -36,6 +37,7 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.7/community" >> /etc/a
     php7-opcache@community \
     php7-xmlwriter@community \
     php7-tokenizer@community \
+    php7-zip@community \
  && cd /tmp \
  && curl -s http://getcomposer.org/installer | php \
  && mv /tmp/composer.phar /usr/bin/composer \
