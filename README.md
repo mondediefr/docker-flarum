@@ -43,7 +43,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **UPLOAD_MAX_SIZE** | The maximum size of an uploaded file | *optional* | 50M
 | **PHP_MEMORY_LIMIT** | PHP memory limit | *optional* | 128M |
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
-| **LOG_TO_STDOUT** | Enable web server logs to stdout | *optional* | false
+| **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
 
 ## Installation
 
