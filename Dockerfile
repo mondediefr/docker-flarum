@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
 LABEL description "Next-generation forum software that makes online discussion fun" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
@@ -11,7 +11,7 @@ ENV GID=991 \
     PHP_MEMORY_LIMIT=128M \
     OPCACHE_MEMORY_LIMIT=128
 
-RUN echo "@community https://nl.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories \
+RUN echo "@community https://nl.alpinelinux.org/alpine/v3.8/community" >> /etc/apk/repositories \
  && apk add -U \
     nginx \
     s6 \
