@@ -95,6 +95,7 @@ services:
   traefik:
     image: traefik
     container_name: traefik
+    command: --docker
     ports:
       - "80:80"
     volumes:
