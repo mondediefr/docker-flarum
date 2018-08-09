@@ -57,9 +57,7 @@ docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
 ```
 
-#### 2 - Docker-compose.yml example
-
-This is an Out-of-box setup example, adapt to your needs :
+#### 2 - Docker-compose.yml
 
 ```yml
 version: "3"
@@ -68,10 +66,6 @@ services:
   flarum:
     image: mondedie/docker-flarum:0.1.0-beta.7.1-stable
     container_name: flarum
-    labels:
-      - traefik.enable=true
-      - traefik.backend.port=8888
-      - traefik.frontend.rule=Host:flarum.local
     environment:
       - FORUM_URL=http://flarum.local
       - DB_PASS=xxxxxx
@@ -91,48 +85,17 @@ services:
       - MYSQL_PASSWORD=xxxxxx
     volumes:
       - /mnt/docker/mysql/db:/var/lib/mysql
-
-  traefik:
-    image: traefik
-    container_name: traefik
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /mnt/docker/traefik.toml:/traefik.toml:ro
-```
-
-```toml
-# /mnt/docker/traefik.toml
-
-defaultEntryPoints = ["http"]
-
-[entryPoints]
-  [entryPoints.http]
-  address = ":80"
-
-[docker]
-endpoint = "unix:///var/run/docker.sock"
-domain = "local"
-watch = true
-exposedbydefault = false
-```
-
-```bash
-# /etc/hosts
-
-127.0.0.1 flarum.local
 ```
 
 #### 3 - Run it
 
-You can now run Flarum :
+You need a reverse proxy to access flarum, this is not described here. You can use the solution of your choice (Traefik, Nginx, Apache, Haproxy, Caddy, H2O...etc).
 
 ```
 docker-compose up -d
 ```
 
-And open http://flarum.local and fill out the installation form :
+Fill out the installation form :
 
 * Your admin password must contain at least **8 characters**.
 * You can't use MariaDB **10.2** or **10.3** for the moment. More information on this issue [here](https://github.com/flarum/core/issues/1211).
