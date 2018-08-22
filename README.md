@@ -44,6 +44,8 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **PHP_MEMORY_LIMIT** | PHP memory limit | *optional* | 128M |
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
 | **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
+| **DO_CHMOD** | Enable or Disable chmod of files to $UID:$GUID | *optional* | true
+
 
 ## Installation
 

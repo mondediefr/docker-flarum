@@ -5,6 +5,7 @@ export DB_HOST
 export DB_USER
 export DB_NAME
 export DEBUG
+export DO_CHMOD
 
 # Default values
 DB_HOST=${DB_HOST:-mariadb}
@@ -12,6 +13,7 @@ DB_USER=${DB_USER:-flarum}
 DB_NAME=${DB_NAME:-flarum}
 DEBUG=${DEBUG:-false}
 LOG_TO_STDOUT=${LOG_TO_STDOUT:-false}
+DO_CHMOD=${DO_CHMOD:-true}
 
 # Required env variables
 if [ -z "$DB_PASS" ]; then
@@ -29,7 +31,9 @@ sed -i "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /etc/php7/php-fpm.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/$OPCACHE_MEMORY_LIMIT/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
-chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
+if [ "$DO_CHMOD" = true ]; then
+  chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
+fi
 
 cd /flarum/app
 
@@ -105,7 +109,9 @@ else
 fi
 
 # Set permissions
-chown -R $UID:$GID /flarum
+if [ "$DO_CHMOD" = true ]; then
+  chown -R $UID:$GID /flarum
+fi
 
 # RUN !
 exec su-exec $UID:$GID /bin/s6-svscan /services
