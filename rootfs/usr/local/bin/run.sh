@@ -31,9 +31,8 @@ sed -i "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /etc/php7/php-fpm.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/$OPCACHE_MEMORY_LIMIT/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
-if [ "$DO_CHMOD" = true ]; then
-  # chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
-fi
+# chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
+
 find /flarum ! -user $UID -print0
 find /services ! -user $UID -print0
 find /var/log ! -user $UID -print0
@@ -113,9 +112,8 @@ else
 fi
 
 # Set permissions
-if [ "$DO_CHMOD" = true ]; then
-  # chown -R $UID:$GID /flarum
-fi
+# chown -R $UID:$GID /flarum
+
 find /flarum ! -user $UID -print0
 
 
