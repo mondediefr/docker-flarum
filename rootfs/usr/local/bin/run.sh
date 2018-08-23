@@ -5,7 +5,6 @@ export DB_HOST
 export DB_USER
 export DB_NAME
 export DEBUG
-export DO_CHMOD
 
 # Default values
 DB_HOST=${DB_HOST:-mariadb}
@@ -13,7 +12,6 @@ DB_USER=${DB_USER:-flarum}
 DB_NAME=${DB_NAME:-flarum}
 DEBUG=${DEBUG:-false}
 LOG_TO_STDOUT=${LOG_TO_STDOUT:-false}
-DO_CHMOD=${DO_CHMOD:-true}
 
 # Required env variables
 if [ -z "$DB_PASS" ]; then
