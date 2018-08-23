@@ -45,6 +45,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
 | **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
 
+
 ## Installation
 
 #### 1 - Pull flarum image

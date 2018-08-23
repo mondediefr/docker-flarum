@@ -29,7 +29,15 @@ sed -i "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /etc/php7/php-fpm.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/$OPCACHE_MEMORY_LIMIT/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
-chown -R $UID:$GID /flarum /services /var/log /var/lib/nginx
+find /flarum ! -user $UID -print0 | xargs -0 -r chown $UID:$GID
+find /services ! -user $UID -print0 | xargs -0 -r chown $UID:$GID
+find /var/log ! -user $UID -print0 | xargs -0 -r chown $UID:$GID
+find /var/lib/nginx ! -user $UID -print0 | xargs -0 -r chown $UID:$GID
+
+find /flarum ! -group $GID -print0 | xargs -0 -r chown $UID:$GID
+find /services ! -group $GID -print0 | xargs -0 -r chown $UID:$GID
+find /var/log ! -group $GID -print0 | xargs -0 -r chown $UID:$GID
+find /var/lib/nginx ! -group $GID -print0 | xargs -0 -r chown $UID:$GID
 
 cd /flarum/app
 
@@ -105,7 +113,10 @@ else
 fi
 
 # Set permissions
-chown -R $UID:$GID /flarum
+find /flarum ! -user $UID -print0 | xargs -0 -r chown $UID:$GID
+find /flarum ! -group $GID -print0 | xargs -0 -r chown $UID:$GID
+
+
 
 # RUN !
 exec su-exec $UID:$GID /bin/s6-svscan /services
