@@ -4,7 +4,7 @@
 
 ### What is this ?
 
-Flarum is the next-generation forum software that makes online discussion fun. It's simple, fast, and free. http://flarum.org/
+Simple forum software for building great communities. http://flarum.org/
 
 ### Features
 
@@ -160,6 +160,11 @@ mkdir -p /mnt/docker/flarum/assets/errors
 touch 403.html 404.html 500.html 503.html
 chown -R 991:991 /mnt/docker/flarum
 ```
+
+### Custom vhost flarum nginx
+
+File to change the vhost flarum `/etc/nginx/conf.d/custom-vhost-flarum.conf`
+To use file custom-vhost-flarum.conf add volume `/etc/nginx/conf.d`
 
 ### Custom composer repositories
 
