@@ -4,7 +4,7 @@
 
 ### What is this ?
 
-Flarum is the next-generation forum software that makes online discussion fun. It's simple, fast, and free. http://flarum.org/
+Simple forum software for building great communities. http://flarum.org/
 
 ### Features
 
@@ -26,6 +26,7 @@ Flarum is the next-generation forum software that makes online discussion fun. I
 
 - **/flarum/app/assets** : Flarum assets directory
 - **/flarum/app/extensions** : Flarum extension directory
+- **/etc/nginx/conf.d** : Nginx location directory
 
 ### Environment variables
 
@@ -72,6 +73,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
+      - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
     depends_on:
       - mariadb
 
@@ -159,6 +161,11 @@ touch 403.html 404.html 500.html 503.html
 chown -R 991:991 /mnt/docker/flarum
 ```
 
+### Custom vhost flarum nginx
+
+File to change the vhost flarum `/etc/nginx/conf.d/custom-vhost-flarum.conf`
+To use file custom-vhost-flarum.conf add volume `/etc/nginx/conf.d`
+
 ### Custom composer repositories
 
 To use the composer repository system, add your repo name and json representation in `/mnt/docker/flarum/extensions/composer.repositories.txt` :
@@ -169,5 +176,3 @@ my_public_repo|{"type":"vcs","url":"https://github.com/my/repo"}
 ```
 
 https://getcomposer.org/doc/03-cli.md#modifying-repositories
-
-
