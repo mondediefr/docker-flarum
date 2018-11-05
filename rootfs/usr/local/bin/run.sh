@@ -64,6 +64,18 @@ if [ -f 'extensions/composer.repositories.txt' ]; then
   done < extensions/composer.repositories.txt
 fi
 
+# Custom vhost flarum nginx
+if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
+
+  echo '# Example:
+
+# fix for flagrow/sitemap (https://github.com/flagrow/sitemap)
+# location = /sitemap.xml {
+#   try_files $uri $uri/ /index.php?$query_string;
+# }' > /etc/nginx/conf.d/custom-vhost-flarum.conf
+
+fi
+
 # if no installation was performed before
 if [ -e 'assets/rev-manifest.json' ]; then
 

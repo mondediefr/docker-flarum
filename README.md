@@ -163,7 +163,7 @@ chown -R 991:991 /mnt/docker/flarum
 
 ### Custom vhost flarum nginx
 
-File to change the vhost flarum `/etc/nginx/conf.d/custom-vhost-flarum.conf`
+File to change the vhost flarum `/etc/nginx/conf.d/custom-vhost-flarum.conf`  
 To use file custom-vhost-flarum.conf add volume `/etc/nginx/conf.d`
 
 ### Custom composer repositories
