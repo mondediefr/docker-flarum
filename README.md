@@ -10,7 +10,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7**
-- Latest Flarum Beta (v0.1.0-beta.7.1)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.7.2)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
@@ -52,7 +52,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 ```bash
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.7.2-stable
 
 # or build it manually :
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
@@ -65,7 +65,7 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/docker-flarum:0.1.0-beta.7.1-stable
+    image: mondedie/docker-flarum:0.1.0-beta.7.2-stable
     container_name: flarum
     environment:
       - FORUM_URL=http://flarum.local
