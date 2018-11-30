@@ -43,7 +43,7 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
     json=$(echo $line | cut -d '|' -f2)
     echo "[INFO] Adding ${repository} composer repository"
     composer config repositories.${repository} "${json}"
-  done < extensions/composer.repositories.txt
+  done < /flarum/app/extensions/composer.repositories.txt
 fi
 
 # Custom vhost flarum nginx
@@ -56,7 +56,7 @@ if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
 fi
 
 # if no installation was performed before
-if [ -e '/flarum/app/public/assets/install.txt' ]; then
+if [ -e '/flarum/app/public/assets/installed.txt' ]; then
   echo "[INFO] Flarum already installed, init app..."
 
   sed -i -e "s|<DEBUG>|${DEBUG}|g" \
@@ -111,7 +111,7 @@ else
   php /flarum/app/flarum install --file=/flarum/app/config.yml
 
   echo "[INFO] End of flarum installation"
-  echo "Done" > /flarum/app/public/assets/install.txt
+  echo "Done" > /flarum/app/public/assets/installed.txt
 fi
 
 # Set permissions for /flarum folder

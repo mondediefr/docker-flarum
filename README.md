@@ -80,7 +80,7 @@ services:
     env_file:
       - /mnt/docker/flarum/flarum.env
     volumes:
-      - /mnt/docker/flarum/assets:/flarum/app/assets
+      - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
       - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
     depends_on:
@@ -136,10 +136,27 @@ docker-compose up -d
 
 ### Upgrade to v0.1.0-beta.8 from v0.1.0-beta.7
 
-:warning: Disable 3rd party extensions prior to upgrading.
+:warning: Disable 3rd party extensions prior to upgrading in panel admin.
+
+Add install.txt file in assets folder
+```
+touch /mnt/docker/flarum/assets/installed.txt
+chown $UID: /mnt/docker/flarum/assets/installed.txt
+```
+
+Remove old assets
 
 ```
-docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable && docker-compose up -d
+cd /mnt/docker/flarum/assets
+rm *.js *.css *.json
+```
+
+Create env file + set chown on this file
+Update your docker-composer file
+
+```
+docker pull mondedie/docker-flarum:0.1.0-beta.8-stable
+docker-compose up -d
 ```
 
 and...
@@ -149,7 +166,8 @@ and...
 :warning: Disable 3rd party extensions prior to upgrading.
 
 ```
-docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable && docker-compose up -d
+docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable
+docker-compose up -d
 ```
 
 Navigate to `yourforum.com/admin`, enter your database password and update.
