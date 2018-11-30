@@ -20,7 +20,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 ### Ports
 
-- **8080**
+- **8888**
 
 ### Volume
 
@@ -47,7 +47,7 @@ Simple forum software for building great communities. http://flarum.org/
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
 | **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
 
-### Required environment variable for installation
+### Required environment variable for first installation
 
 | Variable | Description | Type | Default value |
 | -------- | ----------- | ---- | ------------- |
@@ -102,9 +102,11 @@ services:
 
 You need a reverse proxy to access flarum, this is not described here. You can use the solution of your choice (Traefik, Nginx, Apache, Haproxy, Caddy, H2O...etc).
 
-Create a env file (see docker-compose -> /mnt/docker/flarum/flarum.env)
+Create a environment file (see docker-compose: /mnt/docker/flarum/flarum.env [here](https://github.com/mondediefr/docker-flarum/tree/master#2---docker-composeyml))
 
 ```
+# vi /mnt/docker/flarum/flarum.env
+
 DEBUG=false
 FORUM_URL=http://domain.tld
 
@@ -116,58 +118,92 @@ DB_PASS=xxxxxxxxxx
 DB_PREF=flarum_
 DB_PORT=3306
 
-# User admin flarum
-## admin password must contain at least 8 characters
+# User admin flarum (environment variable for first installation)
+# /!\ admin password must contain at least 8 characters /!\
 FLARUM_ADMIN_USER=admin
 FLARUM_ADMIN_PASS=xxxxxxxxxx
 FLARUM_ADMIN_MAIL=admin@domain.tld
 FLARUM_TITLE=Test flarum
 ```
-run docker-flarum
-```
+
+Run your docker-compose
+
+```sh
 docker-compose up -d
 ```
 
-* :warning: Your admin password must contain at least **8 characters**.
-* You can't use MariaDB **10.2** or **10.3** for the moment. More information on this issue [here](https://github.com/flarum/core/issues/1211).
+* :warning: Your admin password must contain at least **8 characters** (FLARUM_ADMIN_PASS).
 * If you get an error 500 with _Something went wrong_ message, switch the `DEBUG` environment variable to `true` to see the actual error message in your browser.
 
 ![flarum-home](http://i.imgur.com/6kH9iTV.png)
 
-### Upgrade to v0.1.0-beta.8 from v0.1.0-beta.7
+### Upgrade to v0.1.0-beta.8 from v0.1.0-beta.7.2
 
-:warning: Disable 3rd party extensions prior to upgrading in panel admin.
+:warning: Backup your database, config.php, composer.lock and assets folder  
+:warning: Disable all 3rd party extensions prior to upgrading in panel admin.
 
-Add installed.txt file in assets folder
+1 - Add `installed.txt` file in assets folder  
+Make sure to mount your assets folder with the folder /flarum/app/public/assets
 
-```
+```sh
 touch /mnt/docker/flarum/assets/installed.txt
-chown $UID:$GID /mnt/docker/flarum/assets/installed.txt
+chown UID:GID /mnt/docker/flarum/assets/installed.txt
 ```
 
-Remove old assets
+2 - Create your own environment file
 
 ```
-cd /mnt/docker/flarum/assets
-rm *.js *.css *.json
+# vi /mnt/docker/flarum/flarum.env
+
+DEBUG=false
+FORUM_URL=http://domain.tld
+
+# Database configuration
+DB_HOST=mariadb
+DB_NAME=flarum
+DB_USER=flarum
+DB_PASS=xxxxxxxxxx
+DB_PREF=flarum_
+DB_PORT=3306
+
+# environment variable not required
+#FLARUM_ADMIN_USER=admin
+#FLARUM_ADMIN_PASS=xxxxxxxxxx
+#FLARUM_ADMIN_MAIL=admin@domain.tld
+#FLARUM_TITLE=Test flarum
 ```
 
-Create env file + set chown on this file
-Update your docker-composer file
-
+```sh
+chown UID:GID /mnt/docker/flarum/flarum.env
 ```
+
+3 - Update your docker-compose file, see an example [here](https://github.com/mondediefr/docker-flarum/tree/master#2---docker-composeyml)
+
+4 - Pull the last docker images
+
+```sh
 docker pull mondedie/docker-flarum:0.1.0-beta.8-stable
+docker-compose stop flarum
+docker-compose rm flarum
 docker-compose up -d
 ```
 
-and...
+5 - Updating your database and removing old assets: (**container_flarum** is the name of your container)
 
-### Upgrade to v0.1.0-beta.7 from v0.1.0-beta.6
+```sh
+docker exec -ti flarum php /flarum/app/flarum migrate
+docker exec -ti flarum php /flarum/app/flarum cache:clear
+```
+
+Since the flarum-english extension has been renamed to flarum-lang-english, you'll need to to re-enable it from the admin panel.  
+After that your upgrade is finish. :tada: :tada:
+
+### Upgrade to v0.1.0-beta.7.2 from v0.1.0-beta.6
 
 :warning: Disable 3rd party extensions prior to upgrading.
 
-```
-docker pull mondedie/docker-flarum:0.1.0-beta.7.1-stable
+```sh
+docker pull mondedie/docker-flarum:0.1.0-beta.7.2-stable
 docker-compose up -d
 ```
 
@@ -175,9 +211,9 @@ Navigate to `yourforum.com/admin`, enter your database password and update.
 
 ![flarum-update](https://images.mondedie.fr/udl8j4Ue/PueJSigV.png)
 
-Remove and restart your container :
+Remove and restart your container:
 
-```
+```sh
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d
@@ -185,23 +221,23 @@ docker-compose up -d
 
 ### Install custom extensions
 
-**Flarum extensions list :** https://packagist.org/search/?q=flarum-ext
+**Flarum extensions list :** https://flagrow.io/extensions
 
 #### Install an extension
 
-```
+```sh
 docker exec -ti flarum extension require some/extension
 ```
 
 #### Remove an extension
 
-```
+```sh
 docker exec -ti flarum extension remove some/extension
 ```
 
 #### List all extensions
 
-```
+```sh
 docker exec -ti flarum extension list
 ```
 
@@ -212,7 +248,7 @@ To use file custom-vhost-flarum.conf add volume `/etc/nginx/conf.d`
 
 ### Custom composer repositories
 
-To use the composer repository system, add your repo name and json representation in `/mnt/docker/flarum/extensions/composer.repositories.txt` :
+To use the composer repository system, add your repo name and json representation in `/mnt/docker/flarum/extensions/composer.repositories.txt`:
 
 ```
 my_private_repo|{"type":"path","url":"extensions/*/"}

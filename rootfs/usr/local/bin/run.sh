@@ -110,6 +110,7 @@ else
          -e "s|<FLARUM_ADMIN_MAIL>|${FLARUM_ADMIN_MAIL}|g" \
          -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
 
+  # Install flarum
   php /flarum/app/flarum install --file=/flarum/app/config.yml
 
   echo "[INFO] End of flarum installation"

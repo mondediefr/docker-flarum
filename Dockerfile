@@ -50,5 +50,5 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.8/community" >> /etc/a
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
 VOLUME /flarum/app/extensions /etc/nginx/conf.d
-EXPOSE 8080
+EXPOSE 8888
 CMD ["run.sh"]
