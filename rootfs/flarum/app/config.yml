@@ -1,0 +1,17 @@
+debug: <DEBUG>
+baseUrl: <FORUM_URL>
+databaseConfiguration:
+  driver: mysql
+  host: <DB_HOST>
+  database: <DB_NAME>
+  username: <DB_USER>
+  password: <DB_PASS>
+  prefix: <DB_PREF>
+  port: <DB_PORT>
+adminUser:
+  username: <FLARUM_ADMIN_USER>
+  password: <FLARUM_ADMIN_PASS>
+  password_confirmation: <FLARUM_ADMIN_PASS>
+  email: <FLARUM_ADMIN_MAIL>
+settings:
+  forum_title: <FLARUM_TITLE>

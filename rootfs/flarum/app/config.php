@@ -1,7 +1,6 @@
 <?php return array (
   'debug' => <DEBUG>,
-  'database' =>
-  array (
+  'database' => array (
     'driver' => 'mysql',
     'host' => '<DB_HOST>',
     'database' => '<DB_NAME>',
@@ -13,8 +12,7 @@
     'strict' => false,
   ),
   'url' => '<FORUM_URL>',
-  'paths' =>
-  array (
+  'paths' => array (
     'api' => 'api',
     'admin' => 'admin',
   ),

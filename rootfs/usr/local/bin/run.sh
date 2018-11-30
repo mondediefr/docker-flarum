@@ -1,15 +1,11 @@
 #!/bin/sh
 
-# Env variables
-export DB_HOST
-export DB_USER
-export DB_NAME
-export DEBUG
-
 # Default values
 DB_HOST=${DB_HOST:-mariadb}
 DB_USER=${DB_USER:-flarum}
 DB_NAME=${DB_NAME:-flarum}
+DB_PORT=${DB_PORT:-3306}
+FLARUM_TITLE=${FLARUM_TITLE:-Docker-Flarum}
 DEBUG=${DEBUG:-false}
 LOG_TO_STDOUT=${LOG_TO_STDOUT:-false}
 
@@ -24,14 +20,13 @@ if [ -z "$FORUM_URL" ]; then
   exit 1
 fi
 
+# Set file config for nginx and php
 sed -i "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
 sed -i "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /etc/php7/php-fpm.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/$OPCACHE_MEMORY_LIMIT/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
 chown -R $UID:$GID /services /var/log /var/lib/nginx
-
-cd /flarum/app
 
 # Set log output to STDOUT if wanted (LOG_TO_STDOUT=true)
 if [ "$LOG_TO_STDOUT" = true ]; then
@@ -41,21 +36,8 @@ if [ "$LOG_TO_STDOUT" = true ]; then
   sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php7/php-fpm.conf
 fi
 
-# Disable custom errors pages if debug mode is enabled
-if [ "$DEBUG" = true ]; then
-  echo "[INFO] Debug mode enabled"
-  sed -i '/error_page/ s/^/#/' /etc/nginx/nginx.conf
-fi
-
-# Custom HTTP errors pages
-if [ -d 'assets/errors' ]; then
-  echo "[INFO] Found custom errors pages"
-  rm -rf vendor/flarum/core/error/*
-  ln -s /flarum/app/assets/errors/* vendor/flarum/core/error
-fi
-
 # Custom repositories (eg. for privates extensions)
-if [ -f 'extensions/composer.repositories.txt' ]; then
+if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
   while read line; do
     repository=$(echo $line | cut -d '|' -f1)
     json=$(echo $line | cut -d '|' -f2)
@@ -66,19 +48,15 @@ fi
 
 # Custom vhost flarum nginx
 if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
-
   echo '# Example:
-
 # fix for flagrow/sitemap (https://github.com/flagrow/sitemap)
 # location = /sitemap.xml {
 #   try_files $uri $uri/ /index.php?$query_string;
 # }' > /etc/nginx/conf.d/custom-vhost-flarum.conf
-
 fi
 
 # if no installation was performed before
-if [ -e 'assets/rev-manifest.json' ]; then
-
+if [ -e '/flarum/app/public/assets/install.txt' ]; then
   echo "[INFO] Flarum already installed, init app..."
 
   sed -i -e "s|<DEBUG>|${DEBUG}|g" \
@@ -87,13 +65,13 @@ if [ -e 'assets/rev-manifest.json' ]; then
          -e "s|<DB_USER>|${DB_USER}|g" \
          -e "s|<DB_PASS>|${DB_PASS}|g" \
          -e "s|<DB_PREF>|${DB_PREF}|g" \
-         -e "s|<FORUM_URL>|${FORUM_URL}|g" config.php
+         -e "s|<FORUM_URL>|${FORUM_URL}|g" /flarum/app/config.php
 
-  su-exec $UID:$GID php flarum cache:clear
+  su-exec $UID:$GID php /flarum/app/flarum cache:clear
 
   # Composer cache dir and packages list paths
-  CACHE_DIR=extensions/.cache
-  LIST_FILE=extensions/list
+  CACHE_DIR=/flarum/app/extensions/.cache
+  LIST_FILE=/flarum/app/extensions/list
 
   # Download extra extensions installed with composer wrapup script
   if [ -s "$LIST_FILE" ]; then
@@ -108,15 +86,35 @@ if [ -e 'assets/rev-manifest.json' ]; then
   fi
 
   echo "[INFO] Init done, launch flarum..."
-
 else
+  echo "[INFO] First launch, installation..."
+  rm -rf /flarum/app/config.php
 
-  echo "[INFO] First launch, you must install flarum by opening your browser and setting database parameters."
-  rm -rf config.php
+  if [ -z "$FLARUM_ADMIN_USER" ] || [ -z "$FLARUM_ADMIN_PASS" ] || [ -z "$FLARUM_ADMIN_MAIL" ]; then
+    echo "[ERROR] User admin info of flarum must be set !"
+    exit 1
+  fi
 
+  sed -i -e "s|<DEBUG>|${DEBUG}|g" \
+         -e "s|<FORUM_URL>|${FORUM_URL}|g" \
+         -e "s|<DB_HOST>|${DB_HOST}|g" \
+         -e "s|<DB_NAME>|${DB_NAME}|g" \
+         -e "s|<DB_USER>|${DB_USER}|g" \
+         -e "s|<DB_PASS>|${DB_PASS}|g" \
+         -e "s|<DB_PREF>|${DB_PREF}|g" \
+         -e "s|<DB_PORT>|${DB_PORT}|g" \
+         -e "s|<FLARUM_ADMIN_USER>|${FLARUM_ADMIN_USER}|g" \
+         -e "s|<FLARUM_ADMIN_PASS>|${FLARUM_ADMIN_PASS}|g" \
+         -e "s|<FLARUM_ADMIN_MAIL>|${FLARUM_ADMIN_MAIL}|g" \
+         -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
+
+  php /flarum/app/flarum install --file=/flarum/app/config.yml
+
+  echo "[INFO] End of flarum installation"
+  echo "Done" > /flarum/app/public/assets/install.txt
 fi
 
-# Set permissions
+# Set permissions for /flarum folder
 find /flarum ! -user $UID -print0 | xargs -0 -r chown $UID:$GID
 find /flarum ! -group $GID -print0 | xargs -0 -r chown $UID:$GID
 

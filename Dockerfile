@@ -1,9 +1,9 @@
 FROM alpine:3.8
 
-LABEL description "Next-generation forum software that makes online discussion fun" \
+LABEL description "Simple forum software for building great communities" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
 
-ARG VERSION=v0.1.0-beta.7
+ARG VERSION=v0.1.0-beta.8
 
 ENV GID=991 \
     UID=991 \
@@ -39,9 +39,8 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.8/community" >> /etc/a
     php7-tokenizer@community \
     php7-zip@community \
  && cd /tmp \
- && curl -s http://getcomposer.org/installer | php \
- && mv /tmp/composer.phar /usr/bin/composer \
- && chmod +x /usr/bin/composer \
+ && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+ && chmod +x /usr/local/bin/composer \
  && mkdir -p /flarum/app \
  && chown -R $UID:$GID /flarum \
  && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
@@ -50,6 +49,6 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.8/community" >> /etc/a
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
-VOLUME /flarum/app/assets /flarum/app/extensions /etc/nginx/conf.d
-EXPOSE 8888
+VOLUME /flarum/app/extensions /etc/nginx/conf.d
+EXPOSE 8080
 CMD ["run.sh"]
