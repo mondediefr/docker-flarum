@@ -8,6 +8,8 @@ CEND="${CSI}0m"
 CRED="${CSI}1;31m"
 CGREEN="${CSI}1;32m"
 
+cd /flarum/app
+
 # Composer cache dir and packages list paths
 CACHE_DIR=/flarum/app/extensions/.cache
 LIST_FILE=/flarum/app/extensions/list

@@ -138,10 +138,11 @@ docker-compose up -d
 
 :warning: Disable 3rd party extensions prior to upgrading in panel admin.
 
-Add install.txt file in assets folder
+Add installed.txt file in assets folder
+
 ```
 touch /mnt/docker/flarum/assets/installed.txt
-chown $UID: /mnt/docker/flarum/assets/installed.txt
+chown $UID:$GID /mnt/docker/flarum/assets/installed.txt
 ```
 
 Remove old assets

@@ -36,6 +36,8 @@ if [ "$LOG_TO_STDOUT" = true ]; then
   sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php7/php-fpm.conf
 fi
 
+cd /flarum/app
+
 # Custom repositories (eg. for privates extensions)
 if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
   while read line; do
