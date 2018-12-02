@@ -41,6 +41,7 @@ RUN echo "@community https://nl.alpinelinux.org/alpine/v3.8/community" >> /etc/a
  && cd /tmp \
  && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
  && chmod +x /usr/local/bin/composer \
+ && composer global require hirak/prestissimo \
  && mkdir -p /flarum/app \
  && chown -R $UID:$GID /flarum \
  && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \

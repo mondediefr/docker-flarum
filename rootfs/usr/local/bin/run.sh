@@ -78,10 +78,10 @@ if [ -e '/flarum/app/public/assets/installed.txt' ]; then
   # Download extra extensions installed with composer wrapup script
   if [ -s "$LIST_FILE" ]; then
     echo "[INFO] Install extra bundled extensions"
-    while read extension; do
-      echo "[INFO] -------------- Install extension : ${extension} --------------"
-      COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer require "$extension"
+    while read line; do
+      extension="$extension $line"
     done < "$LIST_FILE"
+    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer require "$extension"
     echo "[INFO] Install extra bundled extensions. DONE."
   else
     echo "[INFO] No installed extensions"
