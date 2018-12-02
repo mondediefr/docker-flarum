@@ -188,7 +188,7 @@ docker-compose rm flarum
 docker-compose up -d
 ```
 
-5 - Updating your database and removing old assets: (**container_flarum** is the name of your container)
+5 - Updating your database and removing old assets:
 
 ```sh
 docker exec -ti flarum php /flarum/app/flarum migrate
