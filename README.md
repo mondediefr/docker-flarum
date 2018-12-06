@@ -10,7 +10,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.2**
-- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.8)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.8.1)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
@@ -62,7 +62,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 ```bash
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.8-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.8.1-stable
 
 # or build it manually :
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
@@ -75,7 +75,7 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/docker-flarum:0.1.0-beta.8-stable
+    image: mondedie/docker-flarum:0.1.0-beta.8.1-stable
     container_name: flarum
     env_file:
       - /mnt/docker/flarum/flarum.env
@@ -137,7 +137,7 @@ docker-compose up -d
 
 ![flarum-home](http://i.imgur.com/6kH9iTV.png)
 
-### Upgrade to v0.1.0-beta.8 from v0.1.0-beta.7.2
+### Upgrade to v0.1.0-beta.8.1 from v0.1.0-beta.7.2
 
 :warning: Backup your database, config.php, composer.lock and assets folder  
 :warning: Disable all 3rd party extensions prior to upgrading in panel admin.
@@ -182,7 +182,7 @@ chown UID:GID /mnt/docker/flarum/flarum.env
 4 - Pull the last docker images
 
 ```sh
-docker pull mondedie/docker-flarum:0.1.0-beta.8-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.8.1-stable
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d
