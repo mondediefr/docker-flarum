@@ -16,7 +16,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 ### Build-time variables
 
-- **VERSION** = Version of flarum (default: *v0.1.0-beta.8*)
+- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.8.1*)
 
 ### Ports
 
