@@ -39,11 +39,11 @@ fi
 cd /flarum/app
 
 # add token authentication (eg. for privates extensions)
-if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
+if [ -f '/flarum/app/extensions/auth.token.txt' ]; then
   while read line; do
     site=$(echo $line | cut -d '|' -f1)
     token=$(echo $line | cut -d '|' -f2)
-    if [$site = 'github']; then
+    if [ $site = "github" ]; then
       echo "[INFO] Adding ${site} token authentication"
       su-exec $UID:$GID composer config github-oauth.github.com $token
     fi
