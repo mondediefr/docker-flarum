@@ -1,13 +1,13 @@
 #!/bin/sh
 
 # Default values
-DB_HOST=${DB_HOST:-mariadb}
-DB_USER=${DB_USER:-flarum}
-DB_NAME=${DB_NAME:-flarum}
-DB_PORT=${DB_PORT:-3306}
-FLARUM_TITLE=${FLARUM_TITLE:-Docker-Flarum}
-DEBUG=${DEBUG:-false}
-LOG_TO_STDOUT=${LOG_TO_STDOUT:-false}
+DB_HOST="${DB_HOST:-mariadb}"
+DB_USER="${DB_USER:-flarum}"
+DB_NAME="${DB_NAME:-flarum}"
+DB_PORT="${DB_PORT:-3306}"
+FLARUM_TITLE="${FLARUM_TITLE:-Docker-Flarum}"
+DEBUG="${DEBUG:-false}"
+LOG_TO_STDOUT="${LOG_TO_STDOUT:-false}"
 
 # Required env variables
 if [ -z "${DB_PASS}" ]; then
@@ -45,7 +45,7 @@ if [ -f '/flarum/app/extensions/auth.token.txt' ]; then
     token=$(echo $line | cut -d '|' -f2)
     if [ $site = "github" ]; then
       echo "[INFO] Adding ${site} token authentication"
-      su-exec $UID:$GID composer config github-oauth.github.com $token
+      composer config github-oauth.github.com $token
     fi
   done < /flarum/app/extensions/auth.token.txt
 fi
@@ -56,7 +56,7 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
     repository=$(echo $line | cut -d '|' -f1)
     json=$(echo $line | cut -d '|' -f2)
     echo "[INFO] Adding ${repository} composer repository"
-    su-exec $UID:$GID composer config repositories.$repository "${json}"
+    composer config repositories."${repository}" "${json}"
   done < /flarum/app/extensions/composer.repositories.txt
 fi
 
@@ -93,8 +93,8 @@ if [ -e '/flarum/app/public/assets/installed.txt' ]; then
     while read line; do
       extension="${extension} ${line}"
     done < /flarum/app/extensions/list
-    command="composer require ${extension}"
-    COMPOSER_CACHE_DIR="${CACHE_DIR}" su-exec $UID:$GID $command
+    command="require ${extension}"
+    COMPOSER_CACHE_DIR="${CACHE_DIR}" composer "${command}"
     echo "[INFO] Install extra bundled extensions: DONE."
   else
     echo "[INFO] No installed extensions"

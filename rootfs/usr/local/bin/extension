@@ -15,29 +15,29 @@ CACHE_DIR=/flarum/app/extensions/.cache
 LIST_FILE=/flarum/app/extensions/list
 
 # Cmd ARGS
-action=$1
-package=$2
+action="${1}"
+package="${2}"
 
 # Create custom extensions cache folder and list file
-su-exec $UID:$GID mkdir -p "$CACHE_DIR"
-su-exec $UID:$GID touch "$LIST_FILE"
+su-exec $UID:$GID mkdir -p "${CACHE_DIR}"
+su-exec $UID:$GID touch "${LIST_FILE}"
 
-case "$action" in
+case "${action}" in
   # Install a flarum extension
   "require")
-    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer require "$package"
+    COMPOSER_CACHE_DIR="${CACHE_DIR}" composer require "$package"
     if [ $? -eq 0 ]; then
-      echo "$package" >> "$LIST_FILE"
+      echo "${package}" >> "${LIST_FILE}"
       echo -e "\n${CGREEN}${package} added to flarum.${CEND}"
       # Remove duplicate packages
-      sort -u -o "$LIST_FILE" "$LIST_FILE"
+      sort -u -o "${LIST_FILE}" "${LIST_FILE}"
     else
       echo -e "\n${CRED}/!\ An error has occurred...${CEND}"
     fi
     ;;
   # Remove a flarum extension
   "remove")
-    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer remove "$package"
+    COMPOSER_CACHE_DIR="$CACHE_DIR" composer remove "${package}"
     if [ $? -eq 0 ]; then
       sed -i "\|${package}|d" "$LIST_FILE"
       echo -e "\n${CGREEN}${package} removed from flarum${CEND}"
@@ -46,11 +46,11 @@ case "$action" in
     fi
     ;;
   "list")
-    cat "$LIST_FILE"
+    cat "${LIST_FILE}"
     ;;
   # Other composer action
   *)
-    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID composer "$@"
+    COMPOSER_CACHE_DIR="${CACHE_DIR}" composer "${@}"
     ;;
 esac
 
