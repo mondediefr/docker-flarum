@@ -255,4 +255,24 @@ my_private_repo|{"type":"path","url":"extensions/*/"}
 my_public_repo|{"type":"vcs","url":"https://github.com/my/repo"}
 ```
 
+Example for a private repository in github
+
+Add this in `/mnt/docker/flarum/extensions/composer.repositories.txt`
+```
+username|{"type":"vcs","url":"https://github.com/username/my-private-repo"}
+```
+
+Create a token in github with full control of privates repository  
+https://github.com/settings/tokens
+
+Add your token in the file `/mnt/docker/flarum/extensions/auth.token.txt` replace <TOKEN> by your token
+```
+github|<TOKEN>
+```
+
+Add your repo in the list file `/mnt/docker/flarum/extensions/list`
+```
+username/my-private-repo:0.1.0
+```
+
 https://getcomposer.org/doc/03-cli.md#modifying-repositories

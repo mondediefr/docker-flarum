@@ -10,26 +10,26 @@ DEBUG=${DEBUG:-false}
 LOG_TO_STDOUT=${LOG_TO_STDOUT:-false}
 
 # Required env variables
-if [ -z "$DB_PASS" ]; then
+if [ -z "${DB_PASS}" ]; then
   echo "[ERROR] Mariadb database password must be set !"
   exit 1
 fi
 
-if [ -z "$FORUM_URL" ]; then
+if [ -z "${FORUM_URL}" ]; then
   echo "[ERROR] Forum url must be set !"
   exit 1
 fi
 
 # Set file config for nginx and php
-sed -i "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
-sed -i "s/<PHP_MEMORY_LIMIT>/$PHP_MEMORY_LIMIT/g" /etc/php7/php-fpm.conf
-sed -i "s/<OPCACHE_MEMORY_LIMIT>/$OPCACHE_MEMORY_LIMIT/g" /etc/php7/conf.d/00_opcache.ini
+sed -i "s/<UPLOAD_MAX_SIZE>/${UPLOAD_MAX_SIZE}/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
+sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php7/php-fpm.conf
+sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
 chown -R $UID:$GID /services /var/log /var/lib/nginx
 
 # Set log output to STDOUT if wanted (LOG_TO_STDOUT=true)
-if [ "$LOG_TO_STDOUT" = true ]; then
+if [ "${LOG_TO_STDOUT}" = true ]; then
   echo "[INFO] Logging to stdout activated"
   chmod o+w /dev/stdout
   sed -i "s/.*error_log.*$/error_log \/dev\/stdout warn;/" /etc/nginx/nginx.conf
@@ -38,13 +38,25 @@ fi
 
 cd /flarum/app
 
+# add token authentication (eg. for privates extensions)
+if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
+  while read line; do
+    site=$(echo $line | cut -d '|' -f1)
+    token=$(echo $line | cut -d '|' -f2)
+    if [$site = 'github']; then
+      echo "[INFO] Adding ${site} token authentication"
+      su-exec $UID:$GID composer config github-oauth.github.com $token
+    fi
+  done < /flarum/app/extensions/auth.token.txt
+fi
+
 # Custom repositories (eg. for privates extensions)
 if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
   while read line; do
     repository=$(echo $line | cut -d '|' -f1)
     json=$(echo $line | cut -d '|' -f2)
     echo "[INFO] Adding ${repository} composer repository"
-    composer config repositories.${repository} "${json}"
+    su-exec $UID:$GID composer config repositories.$repository "${json}"
   done < /flarum/app/extensions/composer.repositories.txt
 fi
 
@@ -76,13 +88,13 @@ if [ -e '/flarum/app/public/assets/installed.txt' ]; then
   LIST_FILE=/flarum/app/extensions/list
 
   # Download extra extensions installed with composer wrapup script
-  if [ -s "$LIST_FILE" ]; then
+  if [ -s "${LIST_FILE}" ]; then
     echo "[INFO] Install extra bundled extensions"
     while read line; do
-      extension="$extension $line"
+      extension="${extension} ${line}"
     done < /flarum/app/extensions/list
-    command="composer require $extension"
-    COMPOSER_CACHE_DIR="$CACHE_DIR" su-exec $UID:$GID $command
+    command="composer require ${extension}"
+    COMPOSER_CACHE_DIR="${CACHE_DIR}" su-exec $UID:$GID $command
     echo "[INFO] Install extra bundled extensions: DONE."
   else
     echo "[INFO] No installed extensions"
@@ -93,7 +105,7 @@ else
   echo "[INFO] First launch, installation..."
   rm -rf /flarum/app/config.php
 
-  if [ -z "$FLARUM_ADMIN_USER" ] || [ -z "$FLARUM_ADMIN_PASS" ] || [ -z "$FLARUM_ADMIN_MAIL" ]; then
+  if [ -z "${FLARUM_ADMIN_USER}" ] || [ -z "${FLARUM_ADMIN_PASS}" ] || [ -z "${FLARUM_ADMIN_MAIL}" ]; then
     echo "[ERROR] User admin info of flarum must be set !"
     exit 1
   fi
@@ -112,7 +124,7 @@ else
          -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
 
   # Install flarum
-  php /flarum/app/flarum install --file=/flarum/app/config.yml
+  su-exec $UID:$GID php /flarum/app/flarum install --file=/flarum/app/config.yml
 
   echo "[INFO] End of flarum installation"
   echo "Done" > /flarum/app/public/assets/installed.txt
