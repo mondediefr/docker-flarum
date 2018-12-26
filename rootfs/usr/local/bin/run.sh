@@ -91,10 +91,10 @@ if [ -e '/flarum/app/public/assets/installed.txt' ]; then
   if [ -s "${LIST_FILE}" ]; then
     echo "[INFO] Install extra bundled extensions"
     while read line; do
-      extension="${extension} ${line}"
+      extension="${extension}${line} "
     done < /flarum/app/extensions/list
-    composer="composer require ${extension}"
-    COMPOSER_CACHE_DIR="${CACHE_DIR}" "${composer}"
+    cmd="composer require ${extension}"
+    COMPOSER_CACHE_DIR="${CACHE_DIR}" eval $cmd
     echo "[INFO] Install extra bundled extensions: DONE."
   else
     echo "[INFO] No installed extensions"
