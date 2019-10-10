@@ -9,7 +9,7 @@ Simple forum software for building great communities. http://flarum.org/
 ### Features
 
 - Lightweight & secure image
-- Based on Alpine Linux with **nginx** and **PHP 7.2**
+- Based on Alpine Linux with **nginx** and **PHP 7.3**
 - Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.9)
 - MySQL/Mariadb driver
 - OPCache extension configured
