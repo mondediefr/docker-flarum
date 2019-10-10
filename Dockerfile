@@ -38,6 +38,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /e
     php7-xmlwriter@community \
     php7-tokenizer@community \
     php7-zip@community \
+    php7-intl@community \
  && cd /tmp \
  && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
  && chmod +x /usr/local/bin/composer \

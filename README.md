@@ -4,19 +4,19 @@
 
 ### What is this ?
 
-Simple forum software for building great communities. http://flarum.org/
+Simple forum software for building great communities. https://flarum.org/
 
 ### Features
 
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.3**
-- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.9)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.10)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.9*)
+- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.10*)
 
 ### Ports
 
@@ -63,7 +63,7 @@ Simple forum software for building great communities. http://flarum.org/
 
 ```bash
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.9-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.10-stable
 
 # or build it manually :
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
@@ -76,7 +76,7 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/docker-flarum:0.1.0-beta.9-stable
+    image: mondedie/docker-flarum:0.1.0-beta.10-stable
     container_name: flarum
     env_file:
       - /mnt/docker/flarum/flarum.env
@@ -212,7 +212,7 @@ rm /mnt/docker/flarum/assets/installed.txt
 3 - Pull the last docker images
 
 ```sh
-docker pull mondedie/docker-flarum:0.1.0-beta.8.1-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.10-stable
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d
