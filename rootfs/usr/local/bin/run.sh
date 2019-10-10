@@ -8,6 +8,7 @@ DB_PORT="${DB_PORT:-3306}"
 FLARUM_TITLE="${FLARUM_TITLE:-Docker-Flarum}"
 DEBUG="${DEBUG:-false}"
 LOG_TO_STDOUT="${LOG_TO_STDOUT:-false}"
+GITHUB_TOKEN_AUTH="${GITHUB_TOKEN_AUTH:-false}"
 
 # Required env variables
 if [ -z "${DB_PASS}" ]; then
@@ -38,16 +39,10 @@ fi
 
 cd /flarum/app
 
-# add token authentication (eg. for privates extensions)
-if [ -f '/flarum/app/extensions/auth.token.txt' ]; then
-  while read line; do
-    site=$(echo $line | cut -d '|' -f1)
-    token=$(echo $line | cut -d '|' -f2)
-    if [ $site = "github" ]; then
-      echo "[INFO] Adding ${site} token authentication"
-      composer config github-oauth.github.com $token
-    fi
-  done < /flarum/app/extensions/auth.token.txt
+# add github token authentication (eg. for privates extensions)
+if [ "${GITHUB_TOKEN_AUTH}" != false ]; then
+  echo "[INFO] Adding github token authentication"
+  composer config github-oauth.github.com "${GITHUB_TOKEN_AUTH}"
 fi
 
 # Custom repositories (eg. for privates extensions)
@@ -70,7 +65,7 @@ if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
 fi
 
 # if no installation was performed before
-if [ -e '/flarum/app/public/assets/installed.txt' ]; then
+if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
   echo "[INFO] Flarum already installed, init app..."
 
   sed -i -e "s|<DEBUG>|${DEBUG}|g" \
@@ -127,7 +122,6 @@ else
   su-exec $UID:$GID php /flarum/app/flarum install --file=/flarum/app/config.yml
 
   echo "[INFO] End of flarum installation"
-  echo "Done" > /flarum/app/public/assets/installed.txt
 fi
 
 # Set permissions for /flarum folder

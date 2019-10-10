@@ -1,9 +1,9 @@
-FROM alpine:3.8
+FROM alpine:3.10
 
 LABEL description "Simple forum software for building great communities" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
 
-ARG VERSION=v0.1.0-beta.8.1
+ARG VERSION=v0.1.0-beta.9
 
 ENV GID=991 \
     UID=991 \
@@ -11,7 +11,7 @@ ENV GID=991 \
     PHP_MEMORY_LIMIT=128M \
     OPCACHE_MEMORY_LIMIT=128
 
-RUN echo "@community https://nl.alpinelinux.org/alpine/v3.8/community" >> /etc/apk/repositories \
+RUN echo "@community https://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
  && apk add -U \
     nginx \
     s6 \
