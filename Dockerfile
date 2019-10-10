@@ -11,7 +11,7 @@ ENV GID=991 \
     PHP_MEMORY_LIMIT=128M \
     OPCACHE_MEMORY_LIMIT=128
 
-RUN echo "@community https://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
+RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
  && apk add -U \
     nginx \
     s6 \
