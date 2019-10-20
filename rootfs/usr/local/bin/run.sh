@@ -119,6 +119,7 @@ else
          -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
 
   # Install flarum
+  chown -R $UID:$GID /flarum
   su-exec $UID:$GID php /flarum/app/flarum install --file=/flarum/app/config.yml
 
   echo "[INFO] End of flarum installation"
