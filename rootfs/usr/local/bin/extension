@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # COMPOSER WRAPUP SCRIPT
 # This script allow to add new extensions to flarum

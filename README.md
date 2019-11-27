@@ -2,6 +2,11 @@
 
 ![logo](https://i.imgur.com/Bjrtbsc.png "logo")
 
+[![](https://img.shields.io/docker/cloud/build/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum/builds)
+[![](https://img.shields.io/docker/cloud/automated/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum/builds)
+[![](https://img.shields.io/docker/pulls/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum)
+[![](https://img.shields.io/docker/stars/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum)
+
 ### What is this ?
 
 Simple forum software for building great communities. https://flarum.org/

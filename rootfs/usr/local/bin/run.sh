@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # Default values
 DB_HOST="${DB_HOST:-mariadb}"
@@ -64,7 +64,7 @@ if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
 # }' > /etc/nginx/conf.d/custom-vhost-flarum.conf
 fi
 
-# if no installation was performed before
+# if installation was performed before
 if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
   echo "[INFO] Flarum already installed, init app..."
 
@@ -74,8 +74,9 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
          -e "s|<DB_USER>|${DB_USER}|g" \
          -e "s|<DB_PASS>|${DB_PASS}|g" \
          -e "s|<DB_PREF>|${DB_PREF}|g" \
-         -e "s|<FORUM_URL>|${FORUM_URL}|g" /flarum/app/config.php
+         -e "s|<FORUM_URL>|${FORUM_URL}|g" /flarum/app/config.php.sample
 
+  cp /flarum/app/config.php.sample /flarum/app/config.php
   su-exec $UID:$GID php /flarum/app/flarum cache:clear
 
   # Composer cache dir and packages list paths
@@ -97,8 +98,8 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
 
   echo "[INFO] Init done, launch flarum..."
 else
+  # if no installation was performed before
   echo "[INFO] First launch, installation..."
-  rm -rf /flarum/app/config.php
 
   if [ -z "${FLARUM_ADMIN_USER}" ] || [ -z "${FLARUM_ADMIN_PASS}" ] || [ -z "${FLARUM_ADMIN_MAIL}" ]; then
     echo "[ERROR] User admin info of flarum must be set !"

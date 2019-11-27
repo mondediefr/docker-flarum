@@ -11,43 +11,18 @@ ENV GID=991 \
     PHP_MEMORY_LIMIT=128M \
     OPCACHE_MEMORY_LIMIT=128
 
-RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
- && apk add -U \
-    nginx \
-    s6 \
-    su-exec \
-    curl \
-    git \
-    php7@community \
-    php7-fileinfo@community \
-    php7-phar@community \
-    php7-fpm@community \
-    php7-curl@community \
-    php7-mbstring@community \
-    php7-openssl@community \
-    php7-json@community \
-    php7-pdo@community \
-    php7-pdo_mysql@community \
-    php7-mysqlnd@community \
-    php7-zlib@community \
-    php7-gd@community \
-    php7-dom@community \
-    php7-ctype@community \
-    php7-session@community \
-    php7-opcache@community \
-    php7-xmlwriter@community \
-    php7-tokenizer@community \
-    php7-zip@community \
-    php7-intl@community \
- && cd /tmp \
- && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
- && chmod +x /usr/local/bin/composer \
- && composer global require hirak/prestissimo \
- && mkdir -p /flarum/app \
- && chown -R $UID:$GID /flarum \
- && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project flarum/flarum /flarum/app $VERSION --stability=beta \
- && composer clear-cache \
- && rm -rf /flarum/.composer /var/cache/apk/*
+RUN apk add --update-cache nginx s6 su-exec curl git php7 php7-fileinfo php7-phar php7-fpm php7-curl \
+    php7-mbstring php7-openssl php7-json php7-pdo php7-pdo_mysql php7-mysqlnd php7-zlib php7-gd php7-dom \
+    php7-ctype php7-session php7-opcache php7-xmlwriter php7-tokenizer php7-zip php7-intl \
+  && cd /tmp \
+  && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+  && chmod +x /usr/local/bin/composer \
+  && composer global require --no-progress --no-suggest -- hirak/prestissimo \
+  && mkdir -p /flarum/app \
+  && chown -R $UID:$GID /flarum \
+  && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
+  && composer clear-cache \
+  && rm -rf /flarum/.composer /var/cache/apk/*
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*

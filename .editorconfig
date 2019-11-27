@@ -12,8 +12,5 @@ insert_final_newline = true
 indent_style = space
 indent_size = 2
 
-[*.{diff,md}]
+[*.md]
 trim_trailing_whitespace = false
-
-[*.php]
-indent_size = 4
