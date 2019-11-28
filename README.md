@@ -210,13 +210,6 @@ https://getcomposer.org/doc/03-cli.md#modifying-repositories
 
 1 - Update your docker-compose file, see an example [here](https://github.com/mondediefr/docker-flarum/tree/master#2---docker-composeyml)
 
-2 - Pull the last docker images
-
-```sh
-docker pull mondedie/docker-flarum:0.1.0-beta.11-stable
-```
-
-Update your docker-compose.yml file
 ```yml
 version: "3"
 
@@ -225,7 +218,10 @@ services:
     image: mondedie/docker-flarum:0.1.0-beta.11-stable
 ```
 
+2 - Pull the last docker images
+
 ```sh
+docker pull mondedie/docker-flarum:0.1.0-beta.11-stable
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d flarum
