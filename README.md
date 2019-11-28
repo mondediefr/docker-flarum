@@ -15,13 +15,13 @@ Simple forum software for building great communities. https://flarum.org/
 
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.3**
-- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.10)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.11)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.10*)
+- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.11*)
 
 ### Ports
 
@@ -51,7 +51,7 @@ Simple forum software for building great communities. https://flarum.org/
 | **PHP_MEMORY_LIMIT** | PHP memory limit | *optional* | 128M |
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
 | **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
-| **GITHUB_TOKEN_AUTH** | github token to download private extensions | *optional* | false
+| **GITHUB_TOKEN_AUTH** | Github token to download private extensions | *optional* | false
 
 ### Required environment variable for first installation
 
@@ -68,7 +68,7 @@ Simple forum software for building great communities. https://flarum.org/
 
 ```bash
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.10-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.11-stable
 
 # or build it manually :
 docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
@@ -81,7 +81,7 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/docker-flarum:0.1.0-beta.10-stable
+    image: mondedie/docker-flarum:0.1.0-beta.11-stable
     container_name: flarum
     env_file:
       - /mnt/docker/flarum/flarum.env
@@ -135,7 +135,9 @@ FLARUM_TITLE=Test flarum
 Run your docker-compose
 
 ```sh
-docker-compose up -d
+docker-compose up -d mariadb
+# Wait a moment for the creation of the database
+docker-compose up -d flarum
 ```
 
 * :warning: Your admin password must contain at least **8 characters** (FLARUM_ADMIN_PASS).
@@ -212,9 +214,21 @@ https://getcomposer.org/doc/03-cli.md#modifying-repositories
 
 ```sh
 docker pull mondedie/docker-flarum:0.1.0-beta.11-stable
+```
+
+Update your docker-compose.yml file
+```yml
+version: "3"
+
+services:
+  flarum:
+    image: mondedie/docker-flarum:0.1.0-beta.11-stable
+```
+
+```sh
 docker-compose stop flarum
 docker-compose rm flarum
-docker-compose up -d
+docker-compose up -d flarum
 ```
 
 3 - Updating your database and removing old assets:
