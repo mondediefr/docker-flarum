@@ -201,7 +201,6 @@ username/my-private-repo:0.1.0
 
 https://getcomposer.org/doc/03-cli.md#modifying-repositories
 
-
 ### Upgrade to v0.1.0-beta.11 from v0.1.0-beta.10
 
 :warning: Backup your database, config.php, composer.lock and assets folder  
