@@ -201,6 +201,32 @@ username/my-private-repo:0.1.0
 
 https://getcomposer.org/doc/03-cli.md#modifying-repositories
 
+
+### Upgrade to v0.1.0-beta.11 from v0.1.0-beta.10
+
+:warning: Backup your database, config.php, composer.lock and assets folder  
+:warning: Disable all 3rd party extensions prior to upgrading in panel admin.
+
+1 - Update your docker-compose file, see an example [here](https://github.com/mondediefr/docker-flarum/tree/master#2---docker-composeyml)
+
+2 - Pull the last docker images
+
+```sh
+docker pull mondedie/docker-flarum:0.1.0-beta.11-stable
+docker-compose stop flarum
+docker-compose rm flarum
+docker-compose up -d
+```
+
+3 - Updating your database and removing old assets:
+
+```sh
+docker exec -ti flarum php /flarum/app/flarum migrate
+docker exec -ti flarum php /flarum/app/flarum cache:clear
+```
+
+After that your upgrade is finish. :tada: :tada:
+
 ### Upgrade to v0.1.0-beta.10 from v0.1.0-beta.8.1
 
 :warning: Backup your database, config.php, composer.lock and assets folder  
