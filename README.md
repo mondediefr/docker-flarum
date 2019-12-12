@@ -15,7 +15,7 @@ Simple forum software for building great communities. https://flarum.org/
 
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.3**
-- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.11)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.11.1)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
@@ -68,10 +68,10 @@ Simple forum software for building great communities. https://flarum.org/
 
 ```bash
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.11-stable
+docker pull mondedie/docker-flarum:0.1.0-beta.11.1-stable
 
 # or build it manually :
-docker build -t mondedie/docker-flarum https://github.com/mondediefr/flarum.git#master
+docker build -t mondedie/docker-flarum:latest https://github.com/mondediefr/docker-flarum.git
 ```
 
 #### 2 - Docker-compose.yml
@@ -81,7 +81,7 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/docker-flarum:0.1.0-beta.11-stable
+    image: mondedie/docker-flarum:0.1.0-beta.11.1-stable
     container_name: flarum
     env_file:
       - /mnt/docker/flarum/flarum.env
@@ -202,6 +202,39 @@ username/my-private-repo:0.1.0
 ```
 
 https://getcomposer.org/doc/03-cli.md#modifying-repositories
+
+### Upgrade to v0.1.0-beta.11.1 from v0.1.0-beta.11
+
+:warning: Backup your database, config.php, composer.lock and assets folder  
+:warning: Disable all 3rd party extensions prior to upgrading in panel admin.
+
+1 - Update your docker-compose file, see an example [here](https://github.com/mondediefr/docker-flarum/tree/master#2---docker-composeyml)
+
+```yml
+version: "3"
+
+services:
+  flarum:
+    image: mondedie/docker-flarum:0.1.0-beta.11.1-stable
+```
+
+2 - Pull the last docker images
+
+```sh
+docker pull mondedie/docker-flarum:0.1.0-beta.11.1-stable
+docker-compose stop flarum
+docker-compose rm flarum
+docker-compose up -d flarum
+```
+
+3 - Updating your database and removing old assets:
+
+```sh
+docker exec -ti flarum php /flarum/app/flarum migrate
+docker exec -ti flarum php /flarum/app/flarum cache:clear
+```
+
+After that your upgrade is finish. :tada: :tada:
 
 ### Upgrade to v0.1.0-beta.11 from v0.1.0-beta.10
 
