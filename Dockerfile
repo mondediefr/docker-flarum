@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
 LABEL description="Simple forum software for building great communities" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
@@ -11,9 +11,33 @@ ENV GID=991 \
     PHP_MEMORY_LIMIT=128M \
     OPCACHE_MEMORY_LIMIT=128
 
-RUN apk add --update-cache nginx s6 su-exec curl git php7 php7-fileinfo php7-phar php7-fpm php7-curl \
-    php7-mbstring php7-openssl php7-json php7-pdo php7-pdo_mysql php7-mysqlnd php7-zlib php7-gd php7-dom \
-    php7-ctype php7-session php7-opcache php7-xmlwriter php7-tokenizer php7-zip php7-intl \
+RUN apk add --no-progress --no-cache \
+    nginx \
+    s6 \
+    su-exec \
+    curl \
+    git \
+    php7 \
+    php7-fileinfo \
+    php7-phar \
+    php7-fpm \
+    php7-curl \
+    php7-mbstring \
+    php7-openssl \
+    php7-json \
+    php7-pdo \
+    php7-pdo_mysql \
+    php7-mysqlnd \
+    php7-zlib \
+    php7-gd \
+    php7-dom \
+    php7-ctype \
+    php7-session \
+    php7-opcache \
+    php7-xmlwriter \
+    php7-tokenizer \
+    php7-zip \
+    php7-intl \
   && cd /tmp \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer \
@@ -22,10 +46,11 @@ RUN apk add --update-cache nginx s6 su-exec curl git php7 php7-fileinfo php7-pha
   && chown -R $UID:$GID /flarum \
   && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
   && composer clear-cache \
-  && rm -rf /flarum/.composer /var/cache/apk/*
+  && rm -rf /flarum/.composer /tmp/* \
+  && apk del --purge curl
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
 VOLUME /flarum/app/extensions /etc/nginx/conf.d
 EXPOSE 8888
-CMD ["run.sh"]
+CMD ["/usr/local/bin/startup"]
