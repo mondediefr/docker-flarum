@@ -17,7 +17,10 @@ sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php7/php-fpm.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions
-chown -R "${UID}:${GID}" /services /var/log /var/lib/nginx
+for folder in /services /var/log /var/lib/nginx; do
+  find ${folder} ! -user "${UID}" -exec chown "${UID}:${GID}" {} \;
+  find ${folder} ! -group "${GID}" -exec chown "${UID}:${GID}" {} \;
+done
 
 # Set log output to STDOUT if wanted (LOG_TO_STDOUT=true)
 if [ "${LOG_TO_STDOUT}" = true ]; then
@@ -110,9 +113,9 @@ else
          -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
 
   # Install flarum
-  chown -R "${UID}:${GID}" /flarum
+  find /flarum ! -user "${UID}" -exec chown "${UID}:${GID}" {} \;
+  find /flarum ! -group "${GID}" -exec chown "${UID}:${GID}" {} \;
   su-exec "${UID}:${GID}" php /flarum/app/flarum install --file=/flarum/app/config.yml
-
   echo "[INFO] End of flarum installation"
 fi
 
@@ -120,5 +123,4 @@ fi
 find /flarum ! -user "${UID}" -exec chown "${UID}:${GID}" {} \;
 find /flarum ! -group "${GID}" -exec chown "${UID}:${GID}" {} \;
 
-# RUN !
 exec su-exec "${UID}:${GID}" /bin/s6-svscan /services

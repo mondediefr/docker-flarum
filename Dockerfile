@@ -51,8 +51,7 @@ RUN apk add --no-progress --no-cache \
   && chmod +x /usr/local/bin/composer \
   && composer global require --no-progress --no-suggest -- hirak/prestissimo \
   && mkdir -p /flarum/app \
-  && chown -R $UID:$GID /flarum \
-  && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
+  && COMPOSER_CACHE_DIR="/tmp" composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
   && composer clear-cache \
   && rm -rf /flarum/.composer /tmp/* \
   && apk del --purge curl
