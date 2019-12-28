@@ -19,8 +19,8 @@ action="${1}"
 package="${2}"
 
 # Create custom extensions cache folder and list file
-su-exec $UID:$GID mkdir -p "${CACHE_DIR}"
-su-exec $UID:$GID touch "${LIST_FILE}"
+su-exec "${UID}:${GID}" mkdir -p "${CACHE_DIR}"
+su-exec "${UID}:${GID}" touch "${LIST_FILE}"
 
 case "${action}" in
   # Install a flarum extension
@@ -54,6 +54,6 @@ case "${action}" in
     ;;
 esac
 
-su-exec $UID:$GID php /flarum/app/flarum cache:clear
+su-exec "${UID}:${GID}" php /flarum/app/flarum cache:clear
 
 exit 0

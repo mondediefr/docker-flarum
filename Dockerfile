@@ -9,7 +9,15 @@ ENV GID=991 \
     UID=991 \
     UPLOAD_MAX_SIZE=50M \
     PHP_MEMORY_LIMIT=128M \
-    OPCACHE_MEMORY_LIMIT=128
+    OPCACHE_MEMORY_LIMIT=128 \
+    DB_HOST=mariadb \
+    DB_USER=flarum \
+    DB_NAME=flarum \
+    DB_PORT=3306 \
+    FLARUM_TITLE=Docker-Flarum \
+    DEBUG=false \
+    LOG_TO_STDOUT=false \
+    GITHUB_TOKEN_AUTH=false
 
 RUN apk add --no-progress --no-cache \
     nginx \
@@ -47,7 +55,7 @@ RUN apk add --no-progress --no-cache \
   && COMPOSER_CACHE_DIR="/tmp" su-exec $UID:$GID composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
   && composer clear-cache \
   && rm -rf /flarum/.composer /tmp/* \
-  && apk del --purge curl
+  && apk del --purge curl git
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
