@@ -53,8 +53,7 @@ RUN apk add --no-progress --no-cache \
   && mkdir -p /flarum/app \
   && COMPOSER_CACHE_DIR="/tmp" composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
   && composer clear-cache \
-  && rm -rf /flarum/.composer /tmp/* \
-  && apk del --purge curl
+  && rm -rf /flarum/.composer /tmp/*
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
