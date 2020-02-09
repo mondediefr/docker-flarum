@@ -17,7 +17,8 @@ ENV GID=991 \
     FLARUM_TITLE=Docker-Flarum \
     DEBUG=false \
     LOG_TO_STDOUT=false \
-    GITHUB_TOKEN_AUTH=false
+    GITHUB_TOKEN_AUTH=false \
+    FLARUM_PORT=8888
 
 RUN apk add --no-progress --no-cache \
     nginx \
@@ -25,6 +26,7 @@ RUN apk add --no-progress --no-cache \
     su-exec \
     curl \
     git \
+    libcap \
     php7 \
     php7-fileinfo \
     php7-phar \
@@ -57,6 +59,6 @@ RUN apk add --no-progress --no-cache \
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/nginx
 VOLUME /flarum/app/extensions /etc/nginx/conf.d
-EXPOSE 8888
 CMD ["/usr/local/bin/startup"]

@@ -25,7 +25,7 @@ Simple forum software for building great communities. https://flarum.org/
 
 ### Ports
 
-- **8888**
+- Default: **8888** (configurable)
 
 ### Volume
 
@@ -47,6 +47,7 @@ Simple forum software for building great communities. https://flarum.org/
 | **DB_PASS** | MariaDB database password | **required** | none
 | **DB_PREF** | Flarum tables prefix | *optional* | none
 | **DB_PORT** | MariaDB database port | *optional* | 3306
+| **FLARUM_PORT** | Port to run Flarum on inside the container | *optional* | 8888
 | **UPLOAD_MAX_SIZE** | The maximum size of an uploaded file | *optional* | 50M
 | **PHP_MEMORY_LIMIT** | PHP memory limit | *optional* | 128M |
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
