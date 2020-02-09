@@ -48,6 +48,7 @@ RUN apk add --no-progress --no-cache \
     php7-tokenizer \
     php7-zip \
     php7-intl \
+    php7-exif \
   && cd /tmp \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer \
@@ -55,10 +56,10 @@ RUN apk add --no-progress --no-cache \
   && mkdir -p /flarum/app \
   && COMPOSER_CACHE_DIR="/tmp" composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
   && composer clear-cache \
-  && rm -rf /flarum/.composer /tmp/*
+  && rm -rf /flarum/.composer /tmp/* \
+  && setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/nginx
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
-RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/nginx
 VOLUME /flarum/app/extensions /etc/nginx/conf.d
 CMD ["/usr/local/bin/startup"]

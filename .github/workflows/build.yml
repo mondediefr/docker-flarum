@@ -1,0 +1,33 @@
+name: build
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build-latest-tag:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Dockerhub login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+      -
+        name: Run Buildx
+        run: |
+          docker buildx build \
+          --pull \
+          --push \
+          --platform linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8 \
+          --tag mondedie/flarum:latest .

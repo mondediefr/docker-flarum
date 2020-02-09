@@ -1,15 +1,10 @@
-# mondedie/docker-flarum
+# mondedie/flarum
 
 ![logo](https://i.imgur.com/Bjrtbsc.png)
 
-[![](https://img.shields.io/docker/cloud/build/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum/builds)
-[![](https://img.shields.io/docker/cloud/automated/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum/builds)
-[![](https://img.shields.io/docker/pulls/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum)
-[![](https://img.shields.io/docker/stars/mondedie/docker-flarum)](https://hub.docker.com/r/mondedie/docker-flarum)
-
-### What is this ?
-
-Simple forum software for building great communities. https://flarum.org/
+![](https://github.com/mondediefr/docker-flarum/workflows/build/badge.svg?branch=master&event=push)
+[![](https://img.shields.io/docker/pulls/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
+[![](https://img.shields.io/docker/stars/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 
 ### Features
 
@@ -69,10 +64,10 @@ Simple forum software for building great communities. https://flarum.org/
 
 ```bash
 # Pull from hub.docker.com :
-docker pull mondedie/docker-flarum:0.1.0-beta.11.1-stable
+docker pull mondedie/flarum:latest
 
 # or build it manually :
-docker build -t mondedie/docker-flarum:latest https://github.com/mondediefr/docker-flarum.git
+docker build -t mondedie/flarum:latest https://github.com/mondediefr/docker-flarum.git
 ```
 
 #### 2 - Docker-compose.yml
@@ -82,7 +77,7 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/docker-flarum:0.1.0-beta.11.1-stable
+    image: mondedie/flarum:latest
     container_name: flarum
     env_file:
       - /mnt/docker/flarum/flarum.env
