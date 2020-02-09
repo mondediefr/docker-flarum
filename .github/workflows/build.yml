@@ -29,5 +29,5 @@ jobs:
           docker buildx build \
           --pull \
           --push \
-          --platform linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8 \
+          --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
           --tag mondedie/flarum:latest .

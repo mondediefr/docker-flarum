@@ -6,8 +6,14 @@
 [![](https://img.shields.io/docker/pulls/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 [![](https://img.shields.io/docker/stars/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 
+### Tag available
+
+ - latest [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+ - stable-v0.1.0-beta.11.1 [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+
 ### Features
 
+- Multi-platform image: `linux/386`, `linux/amd64`, `linux/arm/v6`, `linux/arm/v7`, `linux/arm64`
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.3**
 - Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.11.1)
