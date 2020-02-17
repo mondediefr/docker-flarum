@@ -13,6 +13,7 @@ fi
 
 # Set file config for nginx and php
 sed -i "s/<FLARUM_PORT>/${FLARUM_PORT}/g" /etc/nginx/nginx.conf
+sed -i "s|<FLARUM_PUBLIC_PATH>|${FLARUM_PUBLIC_PATH}|g" /etc/nginx/nginx.conf
 sed -i "s/<UPLOAD_MAX_SIZE>/${UPLOAD_MAX_SIZE}/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
 sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php7/php-fpm.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php7/conf.d/00_opcache.ini
@@ -59,7 +60,7 @@ if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
 fi
 
 # if installation was performed before
-if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
+if [ -e "/flarum/app${FLARUM_PUBLIC_PATH}/assets/rev-manifest.json" ]; then
   echo "[INFO] Flarum already installed, init app..."
 
   sed -i -e "s|<DEBUG>|${DEBUG}|g" \
