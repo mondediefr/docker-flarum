@@ -18,7 +18,8 @@ ENV GID=991 \
     DEBUG=false \
     LOG_TO_STDOUT=false \
     GITHUB_TOKEN_AUTH=false \
-    FLARUM_PORT=8888
+    FLARUM_PORT=8888 \
+    FLARUM_PUBLIC_PATH=/public
 
 RUN apk add --no-progress --no-cache \
     nginx \
