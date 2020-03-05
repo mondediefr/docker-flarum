@@ -1,0 +1,40 @@
+name: build-tag
+
+on:
+  push:
+    tags:
+     - stable-*
+
+jobs:
+  build-latest-tag:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      -
+        name: Dockerhub login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+      -
+        name: Get tag name
+        id: tag_name
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+      -
+        name: Run Buildx
+        env:
+          TAG: ${{ steps.tag_name.outputs.TAG }}
+        run: |
+          docker buildx build \
+          --pull \
+          --push \
+          --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
+          --tag mondedie/flarum:"${TAG}" .
