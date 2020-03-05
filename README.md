@@ -8,8 +8,9 @@
 
 ### Tag available
 
- - latest [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
- - stable-v0.1.0-beta.11.1 [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+ - **latest** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+ - **stable-v0.1.0-beta.12** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+ - **stable-v0.1.0-beta.11.1** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
 
 ### Features
 
@@ -208,3 +209,7 @@ https://getcomposer.org/doc/03-cli.md#modifying-repositories
 ### Guide for upgrade your flarum container
 
 See the instructions [here](https://github.com/mondediefr/docker-flarum/blob/master/UPGRADE.md)
+
+## License
+
+Docker image [mondedie/flarum](https://hub.docker.com/r/mondedie/flarum) is released under [MIT License](https://github.com/mondediefr/docker-flarum/blob/master/LICENSE).
