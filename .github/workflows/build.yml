@@ -2,15 +2,18 @@ name: build
 
 on:
   push:
-    branches: master
+    branches:
+      - master
+  schedule:
+    - cron: '0 19 1 * *'
 
 jobs:
-  build-latest-tag:
+  build:
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       -
         name: Set up Docker Buildx
         id: buildx

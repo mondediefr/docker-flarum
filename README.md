@@ -2,7 +2,7 @@
 
 ![logo](https://i.imgur.com/Bjrtbsc.png)
 
-![](https://github.com/mondediefr/docker-flarum/workflows/build/badge.svg?branch=master&event=push)
+![](https://github.com/mondediefr/docker-flarum/workflows/build/badge.svg)
 [![](https://img.shields.io/docker/pulls/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 [![](https://img.shields.io/docker/stars/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 
