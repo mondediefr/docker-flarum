@@ -1,12 +1,12 @@
-name: build-tag
+name: tag
 
 on:
   push:
     tags:
-     - stable-*
+      - stable-*
 
 jobs:
-  build-tag:
+  tag:
     runs-on: ubuntu-latest
     steps:
       -

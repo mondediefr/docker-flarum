@@ -2,7 +2,7 @@
 
 ![logo](https://i.imgur.com/Bjrtbsc.png)
 
-![](https://github.com/mondediefr/docker-flarum/workflows/build/badge.svg)
+[![](https://github.com/mondediefr/docker-flarum/workflows/build/badge.svg)](https://github.com/mondediefr/docker-flarum/actions)
 [![](https://img.shields.io/docker/pulls/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 [![](https://img.shields.io/docker/stars/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 
@@ -17,13 +17,13 @@
 - Multi-platform image: `linux/386`, `linux/amd64`, `linux/arm/v6`, `linux/arm/v7`, `linux/arm64`
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.3**
-- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.11.1)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.13)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.11*)
+- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v0.1.0-beta.13*)
 
 ### Ports
 
