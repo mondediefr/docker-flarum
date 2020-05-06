@@ -9,6 +9,7 @@
 ### Tag available
 
  - **latest** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+ - **stable-v0.1.0-beta.13** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **stable-v0.1.0-beta.12** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **stable-v0.1.0-beta.11.1** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
 
