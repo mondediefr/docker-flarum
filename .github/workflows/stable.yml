@@ -1,12 +1,12 @@
-name: tag
+name: stable
 
 on:
   push:
     tags:
-      - stable-*
+      - '*'
 
 jobs:
-  tag:
+  stable:
     runs-on: ubuntu-latest
     steps:
       -
@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
       -
         name: Set up Docker Buildx
-        id: buildx
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
-          version: latest
+          buildx-version: latest
+          qemu-version: latest
       -
         name: Dockerhub login
         env:
@@ -36,5 +36,6 @@ jobs:
           docker buildx build \
           --pull \
           --push \
+          --tag mondedie/flarum:"${TAG}" mondedie/flarum:stable \
           --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
-          --tag mondedie/flarum:"${TAG}" .
+          .
