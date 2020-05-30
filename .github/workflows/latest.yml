@@ -1,4 +1,4 @@
-name: build
+name: latest
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     - cron: '0 19 1 * *'
 
 jobs:
-  build:
+  latest:
     runs-on: ubuntu-latest
     steps:
       -

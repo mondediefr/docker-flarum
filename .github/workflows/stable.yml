@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  stable:
+  tag:
     runs-on: ubuntu-latest
     steps:
       -
@@ -37,6 +37,34 @@ jobs:
           docker buildx build \
           --pull \
           --push \
-          --tag mondedie/flarum:"${TAG}" mondedie/flarum:stable \
+          --tag mondedie/flarum:"${TAG}" \
+          --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
+          .
+  stable:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up Docker Buildx
+        uses: crazy-max/ghaction-docker-buildx@v2
+        with:
+          buildx-version: latest
+          skip-cache: false
+          qemu-version: latest
+      -
+        name: Dockerhub login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+      -
+        name: Run Buildx
+        run: |
+          docker buildx build \
+          --pull \
+          --push \
+          --tag mondedie/flarum:stable \
           --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
           .
