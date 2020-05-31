@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.12
 
 LABEL description="Simple forum software for building great communities" \
       maintainer="Hardware <hardware@mondedie.fr>, Magicalex <magicalex@mondedie.fr>"
@@ -21,36 +21,36 @@ ENV GID=991 \
     FLARUM_PORT=8888
 
 RUN apk add --no-progress --no-cache \
-    nginx \
-    s6 \
-    su-exec \
     curl \
     git \
     libcap \
+    nginx \
     php7 \
-    php7-fileinfo \
-    php7-phar \
-    php7-fpm \
+    php7-ctype \
     php7-curl \
-    php7-mbstring \
-    php7-openssl \
+    php7-dom \
+    php7-exif \
+    php7-fileinfo \
+    php7-fpm \
+    php7-gd \
+    php7-gmp \
+    php7-iconv \
+    php7-intl \
     php7-json \
+    php7-mbstring \
+    php7-mysqlnd \
+    php7-opcache \
+    php7-openssl \
     php7-pdo \
     php7-pdo_mysql \
-    php7-mysqlnd \
-    php7-zlib \
-    php7-gd \
-    php7-dom \
-    php7-ctype \
+    php7-phar \
     php7-session \
-    php7-opcache \
-    php7-xmlwriter \
     php7-tokenizer \
+    php7-xmlwriter \
     php7-zip \
-    php7-intl \
-    php7-exif \
-    php7-iconv \
-    php7-gmp \
+    php7-zlib \
+    su-exec \
+    s6 \
   && cd /tmp \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer \
