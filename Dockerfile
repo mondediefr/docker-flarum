@@ -50,6 +50,7 @@ RUN apk add --no-progress --no-cache \
     php7-intl \
     php7-exif \
     php7-iconv \
+    php7-gmp \
   && cd /tmp \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer \
