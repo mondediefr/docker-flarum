@@ -55,6 +55,7 @@
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
 | **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
 | **GITHUB_TOKEN_AUTH** | Github token to download private extensions | *optional* | false
+| **PHP_EXTENSIONS** | Install additional php extensions | *optional* | none
 
 ### Required environment variable for first installation
 
@@ -147,6 +148,26 @@ docker-compose up -d flarum
 * If you get an error 500 with _Something went wrong_ message, switch the `DEBUG` environment variable to `true` to see the actual error message in your browser.
 
 ![flarum-home](http://i.imgur.com/6kH9iTV.png)
+
+### Install additional php extensions
+
+```yml
+version: "3"
+
+services:
+  flarum:
+    image: mondedie/flarum:stable
+    container_name: flarum
+    environment:
+      - PHP_EXTENSIONS="gmp session brotli"
+    volumes:
+      - /mnt/docker/flarum/assets:/flarum/app/public/assets
+      - /mnt/docker/flarum/extensions:/flarum/app/extensions
+      - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
+```
+
+This example install php7-gmp php7-session and php7-brotli with apk  
+You can find a php extension here https://pkgs.alpinelinux.org/packages?name=php7-*&branch=v3.12&arch=x86_64
 
 ### Install custom extensions
 

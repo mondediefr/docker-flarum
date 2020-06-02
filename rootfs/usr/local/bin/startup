@@ -31,6 +31,15 @@ if [ "${LOG_TO_STDOUT}" = true ]; then
   sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php7/php-fpm.conf
 fi
 
+# Install additional php extensions
+if [ -n "${PHP_EXTENSIONS}" ]; then
+  for extension in ${PHP_EXTENSIONS}; do
+    PACKAGES="php7-${extension} ${PACKAGES}"
+  done
+
+  apk add --no-progress --no-cache ${PACKAGES}
+fi
+
 cd /flarum/app
 
 # add github token authentication (eg. for privates extensions)
