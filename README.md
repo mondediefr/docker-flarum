@@ -159,7 +159,7 @@ services:
     image: mondedie/flarum:stable
     container_name: flarum
     environment:
-      - PHP_EXTENSIONS="gmp session brotli"
+      - PHP_EXTENSIONS=gmp session brotli
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
