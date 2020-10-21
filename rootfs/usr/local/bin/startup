@@ -87,6 +87,7 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
   LIST_FILE=/flarum/app/extensions/list
 
   # Download extra extensions installed with composer wrapup script
+  unset extension
   if [ -s "${LIST_FILE}" ]; then
     echo "[INFO] Install extra bundled extensions"
     while read line; do
