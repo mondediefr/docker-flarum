@@ -54,7 +54,6 @@ RUN apk add --no-progress --no-cache \
   && cd /tmp \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer \
-  && composer global require --no-progress --no-suggest -- hirak/prestissimo \
   && mkdir -p /flarum/app \
   && COMPOSER_CACHE_DIR="/tmp" composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
   && composer clear-cache \
