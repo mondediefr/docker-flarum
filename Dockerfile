@@ -3,7 +3,7 @@ FROM alpine:3.12
 LABEL description="Simple forum software for building great communities" \
       maintainer="Magicalex <magicalex@mondedie.fr>, Hardware <hardware@mondedie.fr>"
 
-ARG VERSION=v0.1.0-beta.13
+ARG VERSION=v0.1.0-beta.14
 
 ENV GID=991 \
     UID=991 \
