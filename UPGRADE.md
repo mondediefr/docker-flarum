@@ -28,10 +28,12 @@ docker-compose up -d flarum
 3 - Updating your database and removing old assets & extensions
 
 ```sh
-docker exec -ti flarum extension remove --no-update flarum/auth-facebook flarum/auth-github flarum/auth-twitter
-docker exec -ti flarum extension require fof/oauth --no-update
+docker exec -ti flarum extension remove flarum/auth-facebook
+docker exec -ti flarum extension remove flarum/auth-github
+docker exec -ti flarum extension remove flarum/auth-twitter
 docker exec -ti flarum php /flarum/app/flarum migrate
 docker exec -ti flarum php /flarum/app/flarum cache:clear
+docker exec -ti flarum extension require fof/oauth
 ```
 
 After that your upgrade is finish. :tada: :tada:
