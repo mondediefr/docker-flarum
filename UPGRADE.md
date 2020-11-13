@@ -12,14 +12,14 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/flarum:stable-v0.1.0-beta.14
+    image: mondedie/flarum:0.1.0-beta.14
     ...
 ```
 
 2 - Pull the last docker images
 
 ```sh
-docker pull mondedie/flarum:stable-v0.1.0-beta.14
+docker pull mondedie/flarum:0.1.0-beta.14
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d flarum
@@ -50,14 +50,14 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/flarum:stable-v0.1.0-beta.13
+    image: mondedie/flarum:0.1.0-beta.13
     ...
 ```
 
 2 - Pull the last docker images
 
 ```sh
-docker pull mondedie/flarum:stable-v0.1.0-beta.13
+docker pull mondedie/flarum:0.1.0-beta.13
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d flarum
