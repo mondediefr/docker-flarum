@@ -10,15 +10,16 @@
 
  - **latest** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **stable** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
- - **0.1.0-beta.13** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.13/Dockerfile)
+ - **0.1.0-beta.14.1** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.14.1/Dockerfile)
  - **0.1.0-beta.14** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.14/Dockerfile)
+ - **0.1.0-beta.13** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.13/Dockerfile)
 
 ### Features
 
 - Multi-platform image: `linux/386`, `linux/amd64`, `linux/arm/v6`, `linux/arm/v7`, `linux/arm64`
 - Lightweight & secure image
 - Based on Alpine Linux with **nginx** and **PHP 7.3**
-- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.14)
+- Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.14.1)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
