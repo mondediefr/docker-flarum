@@ -99,7 +99,7 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
     echo "[INFO] No installed extensions"
   fi
 
-  echo "[INFO] Init done, launch flarum..."
+  echo "[INFO] Init done"
 else
   # if no installation was performed before
   echo "[INFO] First launch, installation..."
@@ -130,7 +130,9 @@ else
 fi
 
 # Set permissions for /flarum folder
-find /flarum ! -user "${UID}" -exec chown "${UID}:${GID}" {} \;
-find /flarum ! -group "${GID}" -exec chown "${UID}:${GID}" {} \;
+echo "[INFO] Setting folder permissions"
+find /flarum ! -user "${UID}" -exec chown "${UID}:${GID}" {} \+
+find /flarum ! -group "${GID}" -exec chown "${UID}:${GID}" {} \+
 
+echo "[Info] End of startup script. Forum is starting."
 exec su-exec "${UID}:${GID}" /bin/s6-svscan /services
