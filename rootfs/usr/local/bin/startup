@@ -11,11 +11,13 @@ if [ -z "${FORUM_URL}" ]; then
   exit 1
 fi
 
+CACHE_DIR=/flarum/app/extensions/.cache
+LIST_FILE=/flarum/app/extensions/list
+
 # Set file config for nginx and php
 sed -i "s/<FLARUM_PORT>/${FLARUM_PORT}/g" /etc/nginx/nginx.conf
 sed -i "s/<UPLOAD_MAX_SIZE>/${UPLOAD_MAX_SIZE}/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
 sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php7/php-fpm.conf
-sed -i 's/memory_limit = .*/memory_limit = ${PHP_MEMORY_LIMIT}/' /etc/php7/php.ini
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php7/conf.d/00_opcache.ini
 
 # Set permissions for /flarum folder
@@ -42,7 +44,7 @@ if [ -n "${PHP_EXTENSIONS}" ]; then
     PACKAGES="php7-${php_extension} ${PACKAGES}"
   done
   echo "[INFO] Adding php extensions"
-  apk add --no-progress --no-cache ${PACKAGES}
+  apk add --no-progress --no-cache "${PACKAGES}"
 fi
 
 cd /flarum/app
@@ -50,7 +52,7 @@ cd /flarum/app
 # Add github token authentication (eg. for privates extensions)
 if [ "${GITHUB_TOKEN_AUTH}" != false ]; then
   echo "[INFO] Adding github token authentication"
-  composer config github-oauth.github.com "${GITHUB_TOKEN_AUTH}"
+  COMPOSER_CACHE_DIR="${CACHE_DIR}" su-exec "${UID}:${GID}" composer config github-oauth.github.com "${GITHUB_TOKEN_AUTH}"
 fi
 
 # Custom repositories (eg. for privates extensions)
@@ -59,7 +61,7 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
     repository="$(echo ${line} | cut -d '|' -f1)"
     json="$(echo ${line} | cut -d '|' -f2)"
     echo "[INFO] Adding ${repository} composer repository"
-    composer config repositories."${repository}" --json "${json}"
+    COMPOSER_CACHE_DIR="${CACHE_DIR}" su-exec "${UID}:${GID}" composer config repositories."${repository}" --json "${json}"
   done < /flarum/app/extensions/composer.repositories.txt
 fi
 
@@ -87,10 +89,6 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
   cp -p /flarum/app/config.php.sample /flarum/app/config.php
   su-exec "${UID}:${GID}" php /flarum/app/flarum cache:clear
 
-  # Composer cache dir and packages list paths
-  CACHE_DIR=/flarum/app/extensions/.cache
-  LIST_FILE=/flarum/app/extensions/list
-
   # Download extra extensions installed with composer wrapup script
   if [ -s "${LIST_FILE}" ]; then
     echo "[INFO] Install extra bundled extensions"
@@ -98,13 +96,13 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
       extension="${extension}${line} "
     done < /flarum/app/extensions/list
     cmd="composer require ${extension}"
-    COMPOSER_CACHE_DIR="${CACHE_DIR}" su-exec "${UID}:${GID}" eval "${cmd}"
-    echo "[INFO] Install extra bundled extensions: DONE."
+    eval "COMPOSER_CACHE_DIR=${CACHE_DIR} su-exec ${UID}:${GID} ${cmd}"
+    echo "[INFO] Install extra bundled extensions: DONE"
   else
     echo "[INFO] No installed extensions"
   fi
 
-  echo "[INFO] Init done"
+  echo "[INFO] Flarum already installed, init app: DONE"
 else
   # if no installation was performed before
   echo "[INFO] First launch, installation..."
@@ -132,5 +130,5 @@ else
   echo "[INFO] End of flarum installation"
 fi
 
-echo "[Info] End of startup script. Forum is starting."
+echo "[INFO] End of startup script. Forum is starting."
 exec su-exec "${UID}:${GID}" /bin/s6-svscan /services
