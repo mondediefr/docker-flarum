@@ -44,7 +44,7 @@ if [ -n "${PHP_EXTENSIONS}" ]; then
     PACKAGES="php7-${php_extension} ${PACKAGES}"
   done
   echo "[INFO] Adding php extensions"
-  apk add --no-progress --no-cache "${PACKAGES}"
+  apk add --no-progress --no-cache ${PACKAGES}
 fi
 
 cd /flarum/app
