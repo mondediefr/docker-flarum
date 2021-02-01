@@ -96,6 +96,8 @@ services:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
       - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
+    ports:
+      - 80:8888
     depends_on:
       - mariadb
 
