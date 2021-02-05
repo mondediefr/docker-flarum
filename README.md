@@ -19,7 +19,8 @@
 
 - Multi-platform image: `linux/386`, `linux/amd64`, `linux/arm/v6`, `linux/arm/v7`, `linux/arm64`
 - Lightweight & secure image
-- Based on Alpine Linux with **nginx** and **PHP 7.3**
+- Based on Alpine Linux 3.13
+- **nginx** and **PHP 7.4**
 - Latest [Flarum Core](https://github.com/flarum/core) (v0.1.0-beta.15)
 - MySQL/Mariadb driver
 - OPCache extension configured
@@ -36,7 +37,7 @@
 
 - **/flarum/app/public/assets** : Flarum assets directory
 - **/flarum/app/extensions** : Flarum extension directory
-- **/etc/nginx/conf.d** : Nginx location directory
+- **/etc/nginx/flarum** : Nginx location directory
 
 ### Environment variables
 
@@ -95,7 +96,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
-      - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
+      - /mnt/docker/flarum/nginx:/etc/nginx/flarum
     ports:
       - 80:8888
     depends_on:
@@ -168,7 +169,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
-      - /mnt/docker/flarum/nginx:/etc/nginx/conf.d
+      - /mnt/docker/flarum/nginx:/etc/nginx/flarum
 ```
 
 This example install php7-gmp php7-session and php7-brotli with apk  
@@ -198,8 +199,8 @@ docker exec -ti flarum extension list
 
 ### Custom vhost flarum nginx
 
-File to change the vhost flarum `/etc/nginx/conf.d/custom-vhost-flarum.conf`  
-To use file custom-vhost-flarum.conf add volume `/etc/nginx/conf.d`
+File to change the vhost flarum `/etc/nginx/flarum/custom-vhost-flarum.conf`  
+To use file custom-vhost-flarum.conf add volume `/etc/nginx/flarum`
 
 ### Custom composer repositories
 

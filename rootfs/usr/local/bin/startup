@@ -66,12 +66,12 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
 fi
 
 # Custom vhost flarum nginx
-if [ ! -e '/etc/nginx/conf.d/custom-vhost-flarum.conf' ]; then
+if [ ! -e '/etc/nginx/flarum/custom-vhost-flarum.conf' ]; then
   echo '# Example:
 # fix for flagrow/sitemap (https://github.com/flagrow/sitemap)
 # location = /sitemap.xml {
 #   try_files $uri $uri/ /index.php?$query_string;
-# }' > /etc/nginx/conf.d/custom-vhost-flarum.conf
+# }' > /etc/nginx/flarum/custom-vhost-flarum.conf
 fi
 
 # if installation was performed before
