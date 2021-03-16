@@ -63,6 +63,6 @@ RUN apk add --no-progress --no-cache \
   && setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/nginx
 
 COPY rootfs /
-RUN chmod +x /usr/local/bin/* /services/*/run /services/.s6-svscan/*
+RUN chmod +x /usr/local/bin/* /etc/s6.d/*/run /etc/s6.d/.s6-svscan/*
 VOLUME /flarum/app/extensions /etc/nginx/conf.d
 CMD ["/usr/local/bin/startup"]
