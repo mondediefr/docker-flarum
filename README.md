@@ -10,10 +10,8 @@
 
  - **latest** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **stable** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
+ - **0.1.0-beta.16** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.16/Dockerfile)
  - **0.1.0-beta.15** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.15/Dockerfile)
- - **0.1.0-beta.14.1** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.14.1/Dockerfile)
- - **0.1.0-beta.14** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.14/Dockerfile)
- - **0.1.0-beta.13** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.13/Dockerfile)
 
 ### Features
 
