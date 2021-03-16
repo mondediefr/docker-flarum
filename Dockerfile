@@ -52,6 +52,7 @@ RUN apk add --no-progress --no-cache \
     su-exec \
     s6 \
   && cd /tmp \
+  && ln -s /usr/bin/php8 /usr/bin/php \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && sed -i 's/memory_limit = .*/memory_limit = ${PHP_MEMORY_LIMIT}/' /etc/php8/php.ini \
   && chmod +x /usr/local/bin/composer \
