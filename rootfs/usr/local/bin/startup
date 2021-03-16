@@ -132,4 +132,4 @@ else
 fi
 
 echo "[INFO] End of startup script. Forum is starting."
-exec su-exec "${UID}:${GID}" /bin/s6-svscan /services
+exec su-exec "${UID}:${GID}" /bin/s6-svscan /etc/s6.d
