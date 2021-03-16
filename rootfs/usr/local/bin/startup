@@ -96,7 +96,7 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ]; then
     while read line; do
       extension="${extension}${line} "
     done < /flarum/app/extensions/list
-    cmd="composer require ${extension}"
+    cmd="composer require ${extension} -W"
     eval "COMPOSER_CACHE_DIR=${CACHE_DIR} su-exec ${UID}:${GID} ${cmd}"
     echo "[INFO] Install extra bundled extensions: DONE"
   else
