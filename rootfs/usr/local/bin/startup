@@ -22,7 +22,7 @@ sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php8/conf.d/00_
 
 # Set permissions for /flarum folder
 echo "[INFO] Setting folder permissions"
-for folder in /etc/s6.d /var/log /var/lib/nginx; do
+for folder in /etc/s6.d /run/php /var/log /var/lib/nginx; do
   find ${folder} ! -user "${UID}" -exec chown -h "${UID}:${GID}" {} \+
   find ${folder} ! -group "${GID}" -exec chown -h "${UID}:${GID}" {} \+
 done
