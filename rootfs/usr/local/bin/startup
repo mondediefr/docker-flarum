@@ -16,9 +16,9 @@ LIST_FILE=/flarum/app/extensions/list
 
 # Set file config for nginx and php
 sed -i "s/<FLARUM_PORT>/${FLARUM_PORT}/g" /etc/nginx/nginx.conf
-sed -i "s/<UPLOAD_MAX_SIZE>/${UPLOAD_MAX_SIZE}/g" /etc/nginx/nginx.conf /etc/php7/php-fpm.conf
-sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php7/php-fpm.conf
-sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php7/conf.d/00_opcache.ini
+sed -i "s/<UPLOAD_MAX_SIZE>/${UPLOAD_MAX_SIZE}/g" /etc/nginx/nginx.conf /etc/php8/php-fpm.d/www.conf
+sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php8/php-fpm.d/www.conf
+sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php8/conf.d/00_opcache.ini
 
 # Set permissions for /flarum folder
 echo "[INFO] Setting folder permissions"
@@ -35,13 +35,13 @@ if [ "${LOG_TO_STDOUT}" = true ]; then
   echo "[INFO] Logging to stdout activated"
   chmod o+w /dev/stdout
   sed -i "s/.*error_log.*$/error_log \/dev\/stdout warn;/" /etc/nginx/nginx.conf
-  sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php7/php-fpm.conf
+  sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php8/php-fpm.d/www.conf
 fi
 
 # Install additional php extensions
 if [ -n "${PHP_EXTENSIONS}" ]; then
   for php_extension in ${PHP_EXTENSIONS}; do
-    PACKAGES="php7-${php_extension} ${PACKAGES}"
+    PACKAGES="php8-${php_extension} ${PACKAGES}"
   done
   echo "[INFO] Adding php extensions"
   apk add --no-progress --no-cache ${PACKAGES}

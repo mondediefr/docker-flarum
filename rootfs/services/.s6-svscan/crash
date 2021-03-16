@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-exec php-fpm7
+echo "crash s6"
