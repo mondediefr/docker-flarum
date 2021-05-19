@@ -54,6 +54,7 @@ RUN apk add --no-progress --no-cache \
   && cd /tmp \
   && ln -s /usr/bin/php8 /usr/bin/php \
   && curl -s http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+  && curl -L --progress-bar https://github.com/xxxxxliil/db-live-test/releases/download/0.0.1/db-live-test.php -o /usr/local/bin/db-live-test \
   && sed -i 's/memory_limit = .*/memory_limit = ${PHP_MEMORY_LIMIT}/' /etc/php8/php.ini \
   && chmod +x /usr/local/bin/composer \
   && mkdir -p /run/php /flarum/app \

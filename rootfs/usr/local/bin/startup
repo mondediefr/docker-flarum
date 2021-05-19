@@ -65,6 +65,23 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
   done < /flarum/app/extensions/composer.repositories.txt
 fi
 
+# Wait database live
+test_count=0
+test_db(){
+  db-live-test --dsn "mysql:host=${DB_HOST};port=${DB_PORT};database=${DB_NAME}" \
+    --user ${DB_USER} \
+    --password ${DB_PASS}
+}
+echo "[INFO] Waiting for the database live..."
+until test_db; do
+  if [ "${test_count}" = 40 ]; then
+    echo "[ERROR] The database not live!" >&2
+    exit 75
+  fi
+  test_count=$(($test_count + 1))
+  sleep 1
+done
+
 # if installation was performed before
 if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/public/assets/._flarum-installed.lock' ] ; then
   echo "[INFO] Flarum already installed, init app..."
