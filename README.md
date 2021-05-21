@@ -33,8 +33,9 @@
 
 ### Volume
 
-- **/flarum/app/public/assets** : Flarum assets directory
 - **/flarum/app/extensions** : Flarum extension directory
+- **/flarum/app/public/assets** : Flarum assets directory
+- **/flarum/app/storage** : Flarum storage directory(e.g. Flarum log)
 - **/etc/nginx/flarum** : Nginx location directory
 
 ### Environment variables
@@ -94,6 +95,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
+      - /mnt/docker/flarum/storage:/flarum/app/storage
       - /mnt/docker/flarum/nginx:/etc/nginx/flarum
     ports:
       - 80:8888
@@ -167,6 +169,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
+      - /mnt/docker/flarum/storage:/flarum/app/storage
       - /mnt/docker/flarum/nginx:/etc/nginx/flarum
 ```
 
