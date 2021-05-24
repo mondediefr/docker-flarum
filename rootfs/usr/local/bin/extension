@@ -8,11 +8,11 @@ CEND="${CSI}0m"
 CRED="${CSI}1;31m"
 CGREEN="${CSI}1;32m"
 
-cd /flarum/app
+cd ${_FLARUM_DIR}
 
 # Composer cache dir and packages list paths
-CACHE_DIR=/flarum/app/extensions/.cache
-LIST_FILE=/flarum/app/extensions/list
+CACHE_DIR="${_FLARUM_DIR}/extensions/.cache"
+LIST_FILE="${_FLARUM_DIR}/extensions/list"
 
 # Cmd ARGS
 action="${1}"
@@ -54,6 +54,6 @@ case "${action}" in
     ;;
 esac
 
-su-exec "${UID}:${GID}" php /flarum/app/flarum cache:clear
+su-exec "${UID}:${GID}" php ${_FLARUM_DIR}/flarum cache:clear
 
 exit 0

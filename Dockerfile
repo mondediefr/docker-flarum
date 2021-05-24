@@ -5,7 +5,8 @@ LABEL description="Simple forum software for building great communities" \
 
 ARG VERSION=v1.0.0
 
-ENV GID=991 \
+ENV _FLARUM_DIR=/flarum/app \
+    GID=991 \
     UID=991 \
     UPLOAD_MAX_SIZE=50M \
     PHP_MEMORY_LIMIT=128M \

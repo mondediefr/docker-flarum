@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
 
+
+
+#default set by Dockerfile
+#export _FLARUM_DIR="/flarum/app"
+
+
+
 # Required env variables
 if [ -z "${DB_PASS}" ]; then
   echo "[ERROR] Mariadb database password must be set !"
@@ -11,8 +18,8 @@ if [ -z "${FORUM_URL}" ]; then
   exit 1
 fi
 
-CACHE_DIR=/flarum/app/extensions/.cache
-LIST_FILE=/flarum/app/extensions/list
+CACHE_DIR="${_FLARUM_DIR}/extensions/.cache"
+LIST_FILE="${_FLARUM_DIR}/extensions/list"
 
 # Set file config for nginx and php
 sed -i "s/<FLARUM_PORT>/${FLARUM_PORT}/g" /etc/nginx/nginx.conf
@@ -20,15 +27,15 @@ sed -i "s/<UPLOAD_MAX_SIZE>/${UPLOAD_MAX_SIZE}/g" /etc/nginx/nginx.conf /etc/php
 sed -i "s/<PHP_MEMORY_LIMIT>/${PHP_MEMORY_LIMIT}/g" /etc/php8/php-fpm.d/www.conf
 sed -i "s/<OPCACHE_MEMORY_LIMIT>/${OPCACHE_MEMORY_LIMIT}/g" /etc/php8/conf.d/00_opcache.ini
 
-# Set permissions for /flarum folder
+# Set permissions for ${_FLARUM_DIR} folder
 echo "[INFO] Setting folder permissions"
 for folder in /etc/s6.d /run/php /var/log /var/lib/nginx; do
   find ${folder} ! -user "${UID}" -exec chown -h "${UID}:${GID}" {} \+
   find ${folder} ! -group "${GID}" -exec chown -h "${UID}:${GID}" {} \+
 done
 
-find /flarum ! -user "${UID}" -exec chown "${UID}:${GID}" {} \+
-find /flarum ! -group "${GID}" -exec chown "${UID}:${GID}" {} \+
+find "${_FLARUM_DIR}" ! -user "${UID}" -exec chown "${UID}:${GID}" {} \+
+find "${_FLARUM_DIR}" ! -group "${GID}" -exec chown "${UID}:${GID}" {} \+
 
 # Set log output to STDOUT if wanted (LOG_TO_STDOUT=true)
 if [ "${LOG_TO_STDOUT}" = true ]; then
@@ -47,7 +54,7 @@ if [ -n "${PHP_EXTENSIONS}" ]; then
   apk add --no-progress --no-cache ${PACKAGES}
 fi
 
-cd /flarum/app
+cd "${_FLARUM_DIR}"
 
 # Add github token authentication (eg. for privates extensions)
 if [ "${GITHUB_TOKEN_AUTH}" != false ]; then
@@ -56,17 +63,17 @@ if [ "${GITHUB_TOKEN_AUTH}" != false ]; then
 fi
 
 # Custom repositories (eg. for privates extensions)
-if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
+if [ -f "${_FLARUM_DIR}/extensions/composer.repositories.txt" ]; then
   while read line; do
     repository="$(echo ${line} | cut -d '|' -f1)"
     json="$(echo ${line} | cut -d '|' -f2)"
     echo "[INFO] Adding ${repository} composer repository"
     COMPOSER_CACHE_DIR="${CACHE_DIR}" su-exec "${UID}:${GID}" composer config repositories."${repository}" --json "${json}"
-  done < /flarum/app/extensions/composer.repositories.txt
+  done < ${_FLARUM_DIR}/extensions/composer.repositories.txt
 fi
 
 # if installation was performed before
-if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/public/assets/._flarum-installed.lock' ] ; then
+if [ -e "${_FLARUM_DIR}/public/assets/rev-manifest.json" ] || [ -e "${_FLARUM_DIR}/public/assets/._flarum-installed.lock" ] ; then
   echo "[INFO] Flarum already installed, init app..."
 
   sed -i -e "s|<DEBUG>|${DEBUG}|g" \
@@ -76,17 +83,17 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/pub
          -e "s|<DB_PASS>|${DB_PASS}|g" \
          -e "s|<DB_PREF>|${DB_PREF}|g" \
          -e "s|<DB_PORT>|${DB_PORT}|g" \
-         -e "s|<FORUM_URL>|${FORUM_URL}|g" /flarum/app/config.php.sample
+         -e "s|<FORUM_URL>|${FORUM_URL}|g" ${_FLARUM_DIR}/config.php.sample
 
-  cp -p /flarum/app/config.php.sample /flarum/app/config.php
-  su-exec "${UID}:${GID}" php /flarum/app/flarum cache:clear
+  cp -p ${_FLARUM_DIR}/config.php.sample ${_FLARUM_DIR}/config.php
+  su-exec "${UID}:${GID}" php ${_FLARUM_DIR}/flarum cache:clear
 
   # Download extra extensions installed with composer wrapup script
   if [ -s "${LIST_FILE}" ]; then
     echo "[INFO] Install extra bundled extensions"
     while read line; do
       extension="${extension}${line} "
-    done < /flarum/app/extensions/list
+    done < ${_FLARUM_DIR}/extensions/list
     cmd="composer require --update-with-all-dependencies ${extension}"
     eval "COMPOSER_CACHE_DIR=${CACHE_DIR} su-exec ${UID}:${GID} ${cmd}"
     echo "[INFO] Install extra bundled extensions: DONE"
@@ -115,14 +122,16 @@ else
          -e "s|<FLARUM_ADMIN_USER>|${FLARUM_ADMIN_USER}|g" \
          -e "s|<FLARUM_ADMIN_PASS>|${FLARUM_ADMIN_PASS}|g" \
          -e "s|<FLARUM_ADMIN_MAIL>|${FLARUM_ADMIN_MAIL}|g" \
-         -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
+         -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" ${_FLARUM_DIR}/config.yml
 
   # Install flarum
-  su-exec "${UID}:${GID}" php /flarum/app/flarum install --file=/flarum/app/config.yml \
-  && touch /flarum/app/public/assets/._flarum-installed.lock
+  su-exec "${UID}:${GID}" php ${_FLARUM_DIR}/flarum install --file=${_FLARUM_DIR}/config.yml \
+  && touch ${_FLARUM_DIR}/public/assets/._flarum-installed.lock
 
   echo "[INFO] End of flarum installation"
 fi
+
+
 
 echo "[INFO] End of startup script. Forum is starting."
 exec su-exec "${UID}:${GID}" /bin/s6-svscan /etc/s6.d
