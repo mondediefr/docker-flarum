@@ -57,7 +57,7 @@ RUN apk add --no-progress --no-cache \
   && sed -i 's/memory_limit = .*/memory_limit = ${PHP_MEMORY_LIMIT}/' /etc/php8/php.ini \
   && chmod +x /usr/local/bin/composer \
   && mkdir -p /run/php /flarum/app \
-  && COMPOSER_CACHE_DIR="/tmp" composer create-project --stability=beta --no-progress -- flarum/flarum /flarum/app $VERSION \
+  && COMPOSER_CACHE_DIR="/tmp" composer create-project flarum/flarum:$VERSION /flarum/app \
   && composer clear-cache \
   && rm -rf /flarum/.composer /tmp/* \
   && setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/nginx
