@@ -34,10 +34,10 @@
 
 ### Volume
 
+- **/etc/nginx/flarum** : Nginx location directory
 - **/flarum/app/extensions** : Flarum extension directory
 - **/flarum/app/public/assets** : Flarum assets directory
-- **/flarum/app/storage/logs** : Flarum logs directory
-- **/etc/nginx/flarum** : Nginx location directory
+- **/var/log** : Flarum & Nginx & PHP-FPM log directory
 
 ### Environment variables
 
@@ -57,7 +57,8 @@
 | **UPLOAD_MAX_SIZE** | The maximum size of an uploaded file | *optional* | 50M
 | **PHP_MEMORY_LIMIT** | PHP memory limit | *optional* | 128M |
 | **OPCACHE_MEMORY_LIMIT** | OPcache memory size in megabytes | *optional* | 128
-| **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout | *optional* | false
+| **LOG_TO_STDOUT** | Enable nginx and php error logs to stdout (abandoned in the future)| *optional* | false
+| **LOG_OUTOUT** | Set nginx and php log output (value: file/stdio) | *optional* | file
 | **GITHUB_TOKEN_AUTH** | Github token to download private extensions | *optional* | false
 | **PHP_EXTENSIONS** | Install additional php extensions | *optional* | none
 
@@ -96,7 +97,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
-      - /mnt/docker/flarum/storage/logs:/flarum/app/storage/logs
+      - /mnt/docker/flarum/log:/var/log
       - /mnt/docker/flarum/nginx:/etc/nginx/flarum
     ports:
       - 80:8888
@@ -170,7 +171,7 @@ services:
     volumes:
       - /mnt/docker/flarum/assets:/flarum/app/public/assets
       - /mnt/docker/flarum/extensions:/flarum/app/extensions
-      - /mnt/docker/flarum/storage/logs:/flarum/app/storage/logs
+      - /mnt/docker/flarum/log:/var/log
       - /mnt/docker/flarum/nginx:/etc/nginx/flarum
 ```
 

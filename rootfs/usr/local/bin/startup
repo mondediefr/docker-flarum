@@ -30,13 +30,42 @@ done
 find /flarum ! -user "${UID}" -exec chown "${UID}:${GID}" {} \+
 find /flarum ! -group "${GID}" -exec chown "${UID}:${GID}" {} \+
 
-# Set log output to STDOUT if wanted (LOG_TO_STDOUT=true)
+# Set log output to STDOUT if wanted (LOG_TO_STDOUT=true) (abandoned in the future)
+#echo "[WARN] Environment variables LOG_TO_STDOUT will be abandoned in the future"
 if [ "${LOG_TO_STDOUT}" = true ]; then
   echo "[INFO] Logging to stdout activated"
-  chmod o+w /dev/stdout
-  sed -i "s/.*error_log.*$/error_log \/dev\/stdout warn;/" /etc/nginx/nginx.conf
-  sed -i "s/.*error_log.*$/error_log = \/dev\/stdout/" /etc/php8/php-fpm.d/www.conf
+  LOG_OUTPUT='stdio'
+else
+  LOG_OUTPUT='file'
 fi
+
+# Set log output
+set_log_to_stdio(){
+  # by https://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
+  sed -i 's,<path-to-nginx-access_log>,/proc/self/fd/1,' /etc/nginx/nginx.conf
+  sed -i 's,<path-to-nginx-error_log>,/proc/self/fd/2,' /etc/nginx/nginx.conf
+
+  sed -i 's,<path-to-php-fpm-access_log>,/proc/self/fd/1,' /etc/php8/php-fpm.d/www.conf
+  sed -i 's,<path-to-php-fpm-error_log>,/proc/self/fd/2,' /etc/php8/php-fpm.d/www.conf
+
+}
+chown -R "${UID}":"${GID}" /var/log/*
+case "${LOG_OUTPUT}" in
+  'file')
+  sed -i 's,<path-to-nginx-access_log>,/var/log/nginx/nginx-access.log,' /etc/nginx/nginx.conf
+  sed -i 's,<path-to-nginx-error_log>,/var/log/nginx/nginx-error.log,' /etc/nginx/nginx.conf
+
+  sed -i 's,<path-to-php-fpm-access_log>,/var/log/php8/fpm-access.log,' /etc/php8/php-fpm.d/www.conf
+  sed -i 's,<path-to-php-fpm-error_log>,/var/log/php8/fpm-error.log,' /etc/php8/php-fpm.d/www.conf
+  ;;
+  'stdio')
+  set_log_to_stdio
+  ;;
+  *)
+  echo "[WARN] The environment variable LOG_OUTPUT has an incorrect value or is not set, use stdio"
+  set_log_to_stdio
+  ;;
+esac
 
 # Install additional php extensions
 if [ -n "${PHP_EXTENSIONS}" ]; then
