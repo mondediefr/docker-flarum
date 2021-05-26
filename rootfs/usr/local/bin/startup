@@ -1,12 +1,25 @@
 #!/usr/bin/env sh
 
+# by https://unix.stackexchange.com/questions/146942/how-can-i-test-if-a-variable-is-empty-or-contains-only-spaces
+alias tes='test_empty_or_only_spaces'
+test_empty_or_only_spaces(){
+  case "${1}" in
+    *[!\ ]*)
+      return 1
+    ;;
+    *)
+      return 0
+    ;;
+  esac
+}
+
 # Required env variables
-if [ -z "${DB_PASS}" ]; then
+if tes "${DB_PASS}"; then
   echo "[ERROR] Mariadb database password must be set !"
   exit 1
 fi
 
-if [ -z "${FORUM_URL}" ]; then
+if tes "${FORUM_URL}"; then
   echo "[ERROR] Forum url must be set !"
   exit 1
 fi
@@ -99,7 +112,7 @@ else
   # if no installation was performed before
   echo "[INFO] First launch, installation..."
 
-  if [ -z "${FLARUM_ADMIN_USER}" ] || [ -z "${FLARUM_ADMIN_PASS}" ] || [ -z "${FLARUM_ADMIN_MAIL}" ]; then
+  if tes "${FLARUM_ADMIN_USER}" || tes "${FLARUM_ADMIN_PASS}" || tes "${FLARUM_ADMIN_MAIL}"; then
     echo "[ERROR] User admin info of flarum must be set !"
     exit 1
   fi
