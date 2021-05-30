@@ -65,15 +65,6 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
   done < /flarum/app/extensions/composer.repositories.txt
 fi
 
-# Custom vhost flarum nginx
-if [ ! -e '/etc/nginx/flarum/custom-vhost-flarum.conf' ]; then
-  echo '# Example:
-# fix for flagrow/sitemap (https://github.com/flagrow/sitemap)
-# location = /sitemap.xml {
-#   try_files $uri $uri/ /index.php?$query_string;
-# }' > /etc/nginx/flarum/custom-vhost-flarum.conf
-fi
-
 # if installation was performed before
 if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/public/assets/._flarum-installed.lock' ] ; then
   echo "[INFO] Flarum already installed, init app..."
@@ -127,8 +118,9 @@ else
          -e "s|<FLARUM_TITLE>|${FLARUM_TITLE}|g" /flarum/app/config.yml
 
   # Install flarum
-  su-exec "${UID}:${GID}" php /flarum/app/flarum install --file=/flarum/app/config.yml &&
-    touch /flarum/app/public/assets/._flarum-installed.lock
+  su-exec "${UID}:${GID}" php /flarum/app/flarum install --file=/flarum/app/config.yml \
+  && touch /flarum/app/public/assets/._flarum-installed.lock
+
   echo "[INFO] End of flarum installation"
 fi
 

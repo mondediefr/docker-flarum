@@ -202,6 +202,16 @@ docker exec -ti flarum extension list
 
 File to change the vhost flarum `/etc/nginx/flarum/custom-vhost-flarum.conf`  
 To use file custom-vhost-flarum.conf add volume `/etc/nginx/flarum`
+Create file in `/mnt/docker/flarum/nginx/custom-vhost-flarum.conf`
+
+```nginx
+# Example of custom vhost flarum for nginx
+# fix nginx issue for fof/sitemap (https://github.com/FriendsOfFlarum/sitemap)
+
+location = /sitemap.xml {
+  try_files $uri $uri/ /index.php?$query_string;
+}
+```
 
 ### Custom composer repositories
 
