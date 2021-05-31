@@ -24,6 +24,7 @@ RUN apk add --no-progress --no-cache \
     curl \
     git \
     libcap \
+    mariadb-client \
     nginx \
     php8 \
     php8-ctype \
