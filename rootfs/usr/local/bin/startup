@@ -119,7 +119,7 @@ else
 
   # Install flarum
   su-exec "${UID}:${GID}" php /flarum/app/flarum install --file=/flarum/app/config.yml \
-  && touch /flarum/app/storage/._flarum-installed.lock
+    && touch /flarum/app/storage/._flarum-installed.lock
 
   echo "[INFO] End of flarum installation"
 fi
