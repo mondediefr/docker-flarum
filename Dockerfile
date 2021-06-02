@@ -14,6 +14,7 @@ ENV GID=991 \
     DB_USER=flarum \
     DB_NAME=flarum \
     DB_PORT=3306 \
+    DB_WAIT=false \
     FLARUM_TITLE=Docker-Flarum \
     DEBUG=false \
     LOG_TO_STDOUT=false \

@@ -53,6 +53,7 @@
 | **DB_PASS** | MariaDB database password | **required** | none
 | **DB_PREF** | Flarum tables prefix | *optional* | none
 | **DB_PORT** | MariaDB database port | *optional* | 3306
+| **DB_WAIT** | Wait database live | *optional* | false
 | **FLARUM_PORT** | Port to run Flarum on inside the container | *optional* | 8888
 | **UPLOAD_MAX_SIZE** | The maximum size of an uploaded file | *optional* | 50M
 | **PHP_MEMORY_LIMIT** | PHP memory limit | *optional* | 128M |
