@@ -74,7 +74,7 @@ if [ "${DB_WAIT}" = 'true' ]; then
       --password ${DB_PASS}
   }
   echo "[INFO] Waiting for the database live..."
-  until test_db; do
+  until test_db >/dev/null 2>&1; do
     if [ "${test_count}" = 40 ]; then
       echo "[ERROR] The database not live!" >&2
       exit 75
