@@ -66,5 +66,5 @@ RUN apk add --no-progress --no-cache \
 
 COPY rootfs /
 RUN chmod +x /usr/local/bin/* /etc/s6.d/*/run /etc/s6.d/.s6-svscan/*
-VOLUME /etc/nginx/flarum /flarum/app/extensions /flarum/app/public/assets /var/log
+VOLUME /etc/nginx/flarum /flarum/app/extensions /flarum/app/public/assets /var/log/flarum
 CMD ["/usr/local/bin/startup"]
