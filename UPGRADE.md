@@ -1,6 +1,6 @@
 # Guide for upgrade your flarum container
 
-### Upgrade to v0.1.0-beta.16 from v0.1.0
+### Upgrade to v1.0.2 from v0.1.0-beta.16
 
 :warning: Backup your database, config.php, composer.lock and assets folder  
 :warning: Disable all 3rd party extensions prior to upgrading in panel admin.
@@ -12,14 +12,14 @@ version: "3"
 
 services:
   flarum:
-    image: mondedie/flarum:1.0.0
+    image: mondedie/flarum:1.0.2
     ...
 ```
 
 2 - Pull the last docker images
 
 ```sh
-docker pull mondedie/flarum:1.0.0
+docker pull mondedie/flarum:1.0.2
 docker-compose stop flarum
 docker-compose rm flarum
 docker-compose up -d flarum

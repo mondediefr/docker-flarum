@@ -10,7 +10,7 @@
 
  - **latest** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **stable** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
- - **1.0.0** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/1.0.0/Dockerfile)
+ - **1.0.2** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/1.0.2/Dockerfile)
  - **0.1.0-beta.16** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.16/Dockerfile)
  - **0.1.0-beta.15** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.15/Dockerfile)
 
@@ -20,7 +20,7 @@
 - Lightweight & secure image
 - Based on Alpine Linux 3.13
 - **nginx** and **PHP 8.0**
-- Latest [Flarum Core](https://github.com/flarum/core) (v1.0.0)
+- Latest [Flarum Core](https://github.com/flarum/core) (v1.0.2)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
