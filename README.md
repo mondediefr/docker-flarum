@@ -11,21 +11,21 @@
  - **latest** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **stable** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/master/Dockerfile)
  - **1.0.2** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/1.0.2/Dockerfile)
- - **0.1.0-beta.16** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/0.1.0-beta.16/Dockerfile)
+ - **1.2.0** [(Dockerfile)](https://github.com/mondediefr/docker-flarum/blob/1.2.0/Dockerfile)
 
 ### Features
 
 - Multi-platform image: `linux/386`, `linux/amd64`, `linux/arm/v6`, `linux/arm/v7`, `linux/arm64`
 - Lightweight & secure image
-- Based on Alpine Linux 3.13
+- Based on Alpine Linux 3.15
 - **nginx** and **PHP 8.0**
-- Latest [Flarum Core](https://github.com/flarum/core) (v1.0.2)
+- Latest [Flarum Core](https://github.com/flarum/core) (v1.2.0)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v1.0.0*)
+- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v1.2.0*)
 
 ### Ports
 

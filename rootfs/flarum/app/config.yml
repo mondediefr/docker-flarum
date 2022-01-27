@@ -11,7 +11,6 @@ databaseConfiguration:
 adminUser:
   username: <FLARUM_ADMIN_USER>
   password: <FLARUM_ADMIN_PASS>
-  password_confirmation: <FLARUM_ADMIN_PASS>
   email: <FLARUM_ADMIN_MAIL>
 settings:
   forum_title: <FLARUM_TITLE>
