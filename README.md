@@ -17,15 +17,15 @@
 
 - Multi-platform image: `linux/386`, `linux/amd64`, `linux/arm/v6`, `linux/arm/v7`, `linux/arm64`
 - Lightweight & secure image
-- Based on Alpine Linux 3.15
+- Based on Alpine Linux 3.16
 - **nginx** and **PHP 8.0**
-- Latest [Flarum Core](https://github.com/flarum/core) (v1.2.0)
+- Latest [Flarum Framework](https://github.com/flarum/framework) (v1.3.0)
 - MySQL/Mariadb driver
 - OPCache extension configured
 
 ### Build-time variables
 
-- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v1.2.0*)
+- **VERSION** = Version of [flarum/flarum](https://github.com/flarum/flarum) skeleton (default: *v1.3.0*)
 
 ### Ports
 
