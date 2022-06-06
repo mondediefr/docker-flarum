@@ -1,7 +1,7 @@
 FROM alpine:3.16
 
 LABEL description="Simple forum software for building great communities" \
-      maintainer="Magicalex <magicalex@mondedie.fr>, Hardware <hardware@mondedie.fr>"
+      maintainer="Magicalex <magicalex@mondedie.fr>"
 
 ARG VERSION=v1.3.0
 
@@ -23,6 +23,7 @@ ENV GID=991 \
 RUN apk add --no-progress --no-cache \
     curl \
     git \
+    icu-data-full \
     libcap \
     nginx \
     php8 \
@@ -52,7 +53,6 @@ RUN apk add --no-progress --no-cache \
     su-exec \
     s6 \
   && cd /tmp \
-  && ln -s /usr/bin/php8 /usr/bin/php \
   && curl --progress-bar http://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && sed -i 's/memory_limit = .*/memory_limit = ${PHP_MEMORY_LIMIT}/' /etc/php8/php.ini \
   && chmod +x /usr/local/bin/composer \
