@@ -1,5 +1,14 @@
 #!/usr/bin/env sh
 
+
+
+# Currently only flarum_start_pre hook point
+CUSTOM_STARTUP_SCRIPT='/flarum/app/storage/custom-startup.sh'
+[ -r "${CUSTOM_STARTUP_SCRIPT}" ] && . "${CUSTOM_STARTUP_SCRIPT}"
+_check_and_run(){
+  type -t "${1}" >/dev/null && "${1}"
+}
+
 # Required env variables
 if [ -z "${DB_PASS}" ]; then
   echo "[ERROR] Mariadb database password must be set !"
@@ -65,6 +74,7 @@ if [ -f '/flarum/app/extensions/composer.repositories.txt' ]; then
   done < /flarum/app/extensions/composer.repositories.txt
 fi
 
+_check_and_run flarum_install_pre
 # if installation was performed before
 if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/public/assets/._flarum-installed.lock' ] ; then
   echo "[INFO] Flarum already installed, init app..."
@@ -124,5 +134,8 @@ else
   echo "[INFO] End of flarum installation"
 fi
 
+
+
+_check_and_run flarum_start_pre
 echo "[INFO] End of startup script. Forum is starting."
 exec su-exec "${UID}:${GID}" /bin/s6-svscan /etc/s6.d
