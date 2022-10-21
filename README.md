@@ -81,7 +81,7 @@ docker pull mondedie/flarum:latest
 docker build -t mondedie/flarum:latest https://github.com/mondediefr/docker-flarum.git
 ```
 
-#### 2 - Docker-compose.yml
+#### 2 - docker-compose.yml
 
 ```yml
 version: "3"
