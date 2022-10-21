@@ -142,12 +142,12 @@ FLARUM_ADMIN_MAIL=admin@domain.tld
 FLARUM_TITLE=Test flarum
 ```
 
-Run your docker-compose
+Run your Compose file
 
 ```sh
-docker-compose up -d mariadb
+docker compose up -d mariadb
 # Wait a moment for the creation of the database
-docker-compose up -d flarum
+docker compose up -d flarum
 ```
 
 * :warning: Your admin password must contain at least **8 characters** (FLARUM_ADMIN_PASS).
