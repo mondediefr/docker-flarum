@@ -1,7 +1,5 @@
 # mondedie/flarum
 
-![logo](https://i.imgur.com/Bjrtbsc.png)
-
 [![](https://github.com/mondediefr/docker-flarum/workflows/build/badge.svg)](https://github.com/mondediefr/docker-flarum/actions)
 [![](https://img.shields.io/docker/pulls/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
 [![](https://img.shields.io/docker/stars/mondedie/flarum)](https://hub.docker.com/r/mondedie/flarum)
@@ -178,7 +176,7 @@ You can find a php extension here https://pkgs.alpinelinux.org/packages?name=php
 
 ### Install custom extensions
 
-**Flarum extensions list :** https://flagrow.io/extensions
+**Flarum extensions list :** https://extiverse.com/
 
 #### Install an extension
 
@@ -251,3 +249,5 @@ See the instructions [here](https://github.com/mondediefr/docker-flarum/blob/mas
 ## License
 
 Docker image [mondedie/flarum](https://hub.docker.com/r/mondedie/flarum) is released under [MIT License](https://github.com/mondediefr/docker-flarum/blob/master/LICENSE).
+
+The embedded [Flarum software](https://github.com/flarum/) is released under [MIT License](https://github.com/flarum/flarum/blob/master/LICENSE).
