@@ -79,7 +79,6 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/pub
          -e "s|<FORUM_URL>|${FORUM_URL}|g" /flarum/app/config.php.sample
 
   cp -p /flarum/app/config.php.sample /flarum/app/config.php
-  su-exec "${UID}:${GID}" php /flarum/app/flarum cache:clear
 
   # Download extra extensions installed with composer wrapup script
   if [ -s "${LIST_FILE}" ]; then
@@ -93,6 +92,8 @@ if [ -e '/flarum/app/public/assets/rev-manifest.json' ] || [ -e '/flarum/app/pub
   else
     echo "[INFO] No installed extensions"
   fi
+
+  su-exec "${UID}:${GID}" php /flarum/app/flarum cache:clear
 
   echo "[INFO] Flarum already installed, init app: DONE"
 else
