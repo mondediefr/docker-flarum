@@ -18,4 +18,8 @@
     'api' => 'api',
     'admin' => 'admin',
   ),
+  'cookie' => array (
+    'path' => '<COOKIE_PATH>',
+    'domain' => '<COOKIE_DOMAIN>',
+  ),
 );
