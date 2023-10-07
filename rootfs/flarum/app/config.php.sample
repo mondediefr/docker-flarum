@@ -13,6 +13,11 @@
     'prefix' => '<DB_PREF>',
     'strict' => false,
   ),
+  'cookie' => 
+  array (
+    'path' => '<COOKIE_PATH>',
+    'domain' => '<COOKIE_DOMAIN>',
+  ),
   'url' => '<FORUM_URL>',
   'paths' => array (
     'api' => 'api',
