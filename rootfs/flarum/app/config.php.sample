@@ -13,8 +13,7 @@
     'prefix' => '<DB_PREF>',
     'strict' => false,
   ),
-  'cookie' => 
-  array (
+  'cookie' => array (
     'path' => '<COOKIE_PATH>',
     'domain' => '<COOKIE_DOMAIN>',
   ),

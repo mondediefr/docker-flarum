@@ -114,6 +114,8 @@ else
          -e "s|<DB_PASS>|${DB_PASS}|g" \
          -e "s|<DB_PREF>|${DB_PREF}|g" \
          -e "s|<DB_PORT>|${DB_PORT}|g" \
+		 -e "s|<COOKIE_PATH>|${COOKIE_PATH}|g" \
+		 -e "s|<COOKIE_DOMAIN>|${COOKIE_DOMAIN}|g" \
          -e "s|<FLARUM_ADMIN_USER>|${FLARUM_ADMIN_USER}|g" \
          -e "s|<FLARUM_ADMIN_PASS>|${FLARUM_ADMIN_PASS}|g" \
          -e "s|<FLARUM_ADMIN_MAIL>|${FLARUM_ADMIN_MAIL}|g" \
