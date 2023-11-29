@@ -3,7 +3,7 @@ FROM alpine:3.16
 LABEL description="Simple forum software for building great communities" \
       maintainer="Magicalex <magicalex@mondedie.fr>"
 
-ARG VERSION=v1.3.0
+ARG VERSION=v1.8.0
 
 ENV GID=991 \
     UID=991 \
@@ -19,6 +19,11 @@ ENV GID=991 \
     LOG_TO_STDOUT=false \
     GITHUB_TOKEN_AUTH=false \
     FLARUM_PORT=8888
+
+# use cn repo urls
+RUN echo -e 'https://mirrors.aliyun.com/alpine/v3.16/main/\nhttps://mirrors.aliyun.com/alpine/v3.16/community/' > /etc/apk/repositories && \
+    apk update && \
+    apk upgrade
 
 RUN apk add --no-progress --no-cache \
     curl \
